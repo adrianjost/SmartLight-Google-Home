@@ -21,7 +21,8 @@ app.get("/", async (req, res) => {
 	});
 });
 
-exports = module.exports = functions
+
+module.exports = functions
 	.runWith({
 		timeoutSeconds: 30,
 		memory: "512MB",

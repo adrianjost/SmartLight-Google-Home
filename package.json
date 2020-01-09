@@ -13,6 +13,9 @@
 		"lint:prettier": "prettier --write -c \"**/*.{js,json,md}\"",
 		"serve": "firebase serve --only functions",
 		"shell": "firebase experimental:functions:shell",
+		"deploy:OAuth2-UsersCreate": "firebase deploy --only functions:OAuth2-UsersCreate",
+		"deploy:OAuth2-UsersDelete": "firebase deploy --only functions:OAuth2-UsersDelete",
+		"deploy:OAuth2": "firebase deploy --only functions:OAuth2",
 		"deploy:GoogleHome": "firebase deploy --only functions:GoogleHome",
 		"deploy": "run-s deploy:*",
 		"setup": "yarn"
@@ -23,6 +26,7 @@
 		"firebase-admin": "^8.9.0",
 		"firebase-functions": "^3.3.0",
 		"glob": "^7.1.6",
+		"oauth2-firebase": "^0.1.30",
 		"restana": "^4.0.3"
 	},
 	"devDependencies": {
