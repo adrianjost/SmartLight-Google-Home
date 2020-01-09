@@ -49,7 +49,7 @@ response:
 const unitCache = {};
 
 const getUnits = async (userId) => {
-  // TODO [$5e1789f3c9095f000760790c]: implement cache timeout
+  // TODO [#1]: implement cache timeout
   if(unitCache[userId]){
     return unitCache[userId]
   }
@@ -103,8 +103,8 @@ const getGroupInfo = (unit) => {
 }
 const getLampInfo = unit => {
   const getTraits = (lamptype) => {
-    // TODO [$5e1789f3c9095f000760790d]: differentiate between RGB and WWCW lamps, currenlty only RGB is implemented
-    // TODO [$5e1789f3c9095f000760790e]: implement more traits https://developers.google.com/assistant/smarthome/traits
+    // TODO [#2]: differentiate between RGB and WWCW lamps, currenlty only RGB is implemented
+    // TODO [#3]: implement more traits https://developers.google.com/assistant/smarthome/traits
     return "action.devices.traits.OnOff"
   }
   return {
@@ -117,7 +117,7 @@ const getLampInfo = unit => {
       "nicknames": unit.tags
     },
     "attributes": {
-        // TODO [$5e1789f3c9095f000760790f]: implement colorTemperatureRange for WWCW lamps https://developers.google.com/assistant/smarthome/traits/colorsetting
+        // TODO [#4]: implement colorTemperatureRange for WWCW lamps https://developers.google.com/assistant/smarthome/traits/colorsetting
         "colorModel": "rgb",
         "commandOnlyColorSetting": true
       },
