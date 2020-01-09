@@ -1,5 +1,5 @@
 const { db } = require("../initialize");
-const pkg = require("../../package.json")
+const pkg = require("../../package.json");
 /*
 req.body:
 {
@@ -49,22 +49,22 @@ response:
 const unitCache = {};
 
 const getUnits = async (userId) => {
-  // TODO: implement cache timeout
-  if(unitCache[userId]){
-    return unitCache[userId]
-  }
-  const unitSnapchots = await db.collection("units")
-    .where("created_by", "==", userid)
-    .where("name", "==", req.body.objectName)
-    .get();
-    const units = [];
-    unitSnapchots.forEach((doc) => {
-      units.push(doc.data());
-    });
-    unitCache[userId] = units;
-    return units;
-}
-
+	// TODO: implement cache timeout
+	if (unitCache[userId]) {
+		return unitCache[userId];
+	}
+	const unitSnapchots = await db
+		.collection("units")
+		.where("created_by", "==", userid)
+		.where("name", "==", req.body.objectName)
+		.get();
+	const units = [];
+	unitSnapchots.forEach((doc) => {
+		units.push(doc.data());
+	});
+	unitCache[userId] = units;
+	return units;
+};
 
 /*
 unit:
@@ -99,55 +99,55 @@ unit:
 }
 */
 const getGroupInfo = (unit) => {
-  return false
-}
-const getLampInfo = unit => {
-  const getTraits = (lamptype) => {
-    // TODO: differentiate between RGB and WWCW lamps, currenlty only RGB is implemented
-    // TODO: implement more traits https://developers.google.com/assistant/smarthome/traits
-    return "action.devices.traits.OnOff"
-  }
-  return {
-    "id": unit.id,
-    "type": "action.devices.types.LIGHT",
-    "traits": getTraits(unit.lamptype),
-    "name": {
-      "defaultNames": ["ESP8266-01 Lamp"],
-      "name": unit.name,
-      "nicknames": unit.tags
-    },
-    "attributes": {
-        // TODO: implement colorTemperatureRange for WWCW lamps https://developers.google.com/assistant/smarthome/traits/colorsetting
-        "colorModel": "rgb",
-        "commandOnlyColorSetting": true
-      },
-    "willReportState": false,
-    "deviceInfo": {
-      "manufacturer": "DIY",
-      "swVersion": pkg.version
-    }
-  }
-}
+	return false;
+};
+const getLampInfo = (unit) => {
+	const getTraits = (lamptype) => {
+		// TODO: differentiate between RGB and WWCW lamps, currenlty only RGB is implemented
+		// TODO: implement more traits https://developers.google.com/assistant/smarthome/traits
+		return "action.devices.traits.OnOff";
+	};
+	return {
+		id: unit.id,
+		type: "action.devices.types.LIGHT",
+		traits: getTraits(unit.lamptype),
+		name: {
+			defaultNames: ["ESP8266-01 Lamp"],
+			name: unit.name,
+			nicknames: unit.tags,
+		},
+		attributes: {
+			// TODO: implement colorTemperatureRange for WWCW lamps https://developers.google.com/assistant/smarthome/traits/colorsetting
+			colorModel: "rgb",
+			commandOnlyColorSetting: true,
+		},
+		willReportState: false,
+		deviceInfo: {
+			manufacturer: "DIY",
+			swVersion: pkg.version,
+		},
+	};
+};
 
 const getDeviceInfo = (unit) => {
-  switch (unit.type){
-    case "GROUP": {
-      return getGroupInfo(unit)
-    }
-    case "LAMP":
-    default: {
-      return getLampInfo(unit)
-    }
-  }
-}
+	switch (unit.type) {
+		case "GROUP": {
+			return getGroupInfo(unit);
+		}
+		case "LAMP":
+		default: {
+			return getLampInfo(unit);
+		}
+	}
+};
 
 const sync = async (req, res) => {
-  const units = await getUnits();
+	const units = await getUnits();
 
-  return {
-    "agentUserId": "1836.15267389",
-    "devices": units.map(getDeviceInfo).filter(a => a) // TODO: remove this filter when groups are implemented
-  }
-}
+	return {
+		agentUserId: "1836.15267389",
+		devices: units.map(getDeviceInfo).filter((a) => a), // TODO: remove this filter when groups are implemented
+	};
+};
 
 module.exports = sync;
