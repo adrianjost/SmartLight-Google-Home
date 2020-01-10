@@ -17,8 +17,7 @@
 		"deploy:OAuth2-UsersDelete": "firebase deploy --only functions:OAuth2UsersDelete",
 		"deploy:OAuth2": "firebase deploy --only functions:OAuth2",
 		"deploy:GoogleHome": "firebase deploy --only functions:GoogleHome",
-		"deploy": "run-s deploy:*",
-		"setup": "yarn"
+		"deploy": "run-s deploy:*"
 	},
 	"dependencies": {
 		"camelcase": "^5.3.1",
