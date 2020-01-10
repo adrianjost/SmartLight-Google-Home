@@ -19,8 +19,6 @@ Configuration.init({
 });
 
 module.exports = {
-	OAuth2UsersCreate: require("./user-sync.function.js").CREATE,
-	OAuth2UsersDelete: require("./user-sync.function.js").DELETE,
 	token: token(),
 	authorize: authorize(),
 	authentication: googleAccountAuthentication(),

@@ -13,8 +13,6 @@
 		"lint:prettier": "prettier --write -c \"**/*.{js,json,md}\"",
 		"serve": "firebase serve --only functions",
 		"shell": "firebase experimental:functions:shell",
-		"deploy:OAuth2UsersCreate": "firebase deploy --only functions:OAuth2UsersCreate",
-		"deploy:OAuth2UsersDelete": "firebase deploy --only functions:OAuth2UsersDelete",
 		"deploy:token": "firebase deploy --only functions:token",
 		"deploy:authorize": "firebase deploy --only functions:authorize",
 		"deploy:authentication": "firebase deploy --only functions:authentication",
