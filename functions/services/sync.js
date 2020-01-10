@@ -143,7 +143,7 @@ const getDeviceInfo = (unit) => {
 const sync = async (req, res) => {
 	const units = await getUnits(req.auth.userid);
 	return {
-		agentUserId: "1836.15267389", // TODO: implement agentUserId
+		agentUserId: req.auth.userid,
 		devices: units.map(getDeviceInfo).filter((a) => a), // TODO: remove this filter when groups are implemented
 	};
 };
