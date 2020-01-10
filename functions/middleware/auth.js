@@ -10,7 +10,7 @@ module.exports = async (req, res, next) => {
 	}
 	let userid;
 	if (authTokenCache[authToken]) {
-		// TODO: implement cache timeout
+		// TODO [$5e18f8cb2688c900073c4012]: implement cache timeout
 		userid = authTokenCache[authToken];
 	} else {
 		const userSnapshot = await db
