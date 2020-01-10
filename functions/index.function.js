@@ -14,9 +14,10 @@ const intents = {
 
 app.post("/", async (req, res) => {
 	const intent = req.body.inputs[0].intent;
-	console.log("EXECUTE:", req.body);
+	console.debug("EXECUTE:", req.body);
 	try {
 		const payload = await intents[intent](req, res);
+		console.debug("RESPONSE", payload);
 		res.send({
 			requestId: req.body.requestId,
 			payload,
