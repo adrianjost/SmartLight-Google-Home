@@ -48,21 +48,20 @@ response:
 
 const unitCache = {};
 
-const getUnits = async (userId) => {
+const getUnits = async (userid) => {
 	// TODO [#1]: implement cache timeout
-	if (unitCache[userId]) {
-		return unitCache[userId];
+	if (unitCache[userid]) {
+		return unitCache[userid];
 	}
 	const unitSnapchots = await db
 		.collection("units")
 		.where("created_by", "==", userid)
-		.where("name", "==", req.body.objectName)
-		.get();
+		.get()
 	const units = [];
 	unitSnapchots.forEach((doc) => {
 		units.push(doc.data());
 	});
-	unitCache[userId] = units;
+	unitCache[userid] = units;
 	return units;
 };
 
@@ -105,7 +104,7 @@ const getLampInfo = (unit) => {
 	const getTraits = (lamptype) => {
 		// TODO [#2]: differentiate between RGB and WWCW lamps, currenlty only RGB is implemented
 		// TODO [#3]: implement more traits https://developers.google.com/assistant/smarthome/traits
-		return "action.devices.traits.OnOff";
+		return ["action.devices.traits.OnOff"];
 	};
 	return {
 		id: unit.id,
@@ -142,8 +141,7 @@ const getDeviceInfo = (unit) => {
 };
 
 const sync = async (req, res) => {
-	const units = await getUnits();
-
+	const units = await getUnits(req.auth.userid);
 	return {
 		agentUserId: "1836.15267389", // TODO: implement agentUserId
 		devices: units.map(getDeviceInfo).filter((a) => a), // TODO: remove this filter when groups are implemented
