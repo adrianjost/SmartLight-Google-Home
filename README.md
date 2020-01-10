@@ -22,25 +22,25 @@ The OAuth2 Server requires a couple of database entries to be set in firestore:
 // db = admin.firestore...
 const userRef = db.collection("clients").doc("<OAuth Client ID>");
 const client = {
-  "user_id": "<OAuth Client ID>",
-  "provider_name": "Google, Inc.",
-  "client_secret": "<OAuth Client Secret>",
-  "redirect_uri": "https://oauth-redirect.googleusercontent.com/r/<PROJECT_ID>",
-  "grant_type": {
-    "authorization_code": true,
-    "password": false,
-    "client_credentials": true,
-    "refresh_token": true
-  },
-  "response_type": {
-    "code": true,
-    "token": true
-  },
-  "scope": {
-    "units": true
-  }
-}
-await userRef.set(client, { merge: true })
+	user_id: "<OAuth Client ID>",
+	provider_name: "Google, Inc.",
+	client_secret: "<OAuth Client Secret>",
+	redirect_uri: "https://oauth-redirect.googleusercontent.com/r/<PROJECT_ID>",
+	grant_type: {
+		authorization_code: true,
+		password: false,
+		client_credentials: true,
+		refresh_token: true,
+	},
+	response_type: {
+		code: true,
+		token: true,
+	},
+	scope: {
+		units: true,
+	},
+};
+await userRef.set(client, { merge: true });
 ```
 
 **Scopes:**
@@ -49,8 +49,8 @@ await userRef.set(client, { merge: true })
 // db = admin.firestore...
 const userRef = db.collection("clients").doc("<OAuth Client ID>");
 const client = {
-  "name": "some scope name", // will be used as an identifier when requesting access to resources (the sender defines and sends scope access requests)
-  "description": "explenation for the user for which data access will be granted"
-}
-await userRef.set(client, { merge: true })
+	name: "some scope name", // will be used as an identifier when requesting access to resources (the sender defines and sends scope access requests)
+	description: "explenation for the user for which data access will be granted",
+};
+await userRef.set(client, { merge: true });
 ```

@@ -13,12 +13,12 @@ install:
   - yarn install --frozen-lockfile
 
 script:
-  - npm run lint
+  - yarn lint
 
 deploy:
   skip_cleanup: true
   provider: script
-  script: npm run deploy
+  script: yarn deploy
   on:
     branch: master
 

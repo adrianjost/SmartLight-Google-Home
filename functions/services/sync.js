@@ -56,7 +56,7 @@ const getUnits = async (userid) => {
 	const unitSnapchots = await db
 		.collection("units")
 		.where("created_by", "==", userid)
-		.get()
+		.get();
 	const units = [];
 	unitSnapchots.forEach((doc) => {
 		units.push(doc.data());
