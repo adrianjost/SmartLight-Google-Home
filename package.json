@@ -19,7 +19,7 @@
 		"deploy:OAuth2authorize": "firebase deploy --only functions:OAuth2authorize",
 		"deploy:OAuth2authentication": "firebase deploy --only functions:OAuth2authentication",
 		"deploy:GoogleHome": "firebase deploy --only functions:GoogleHome",
-		"deploy": "run-p deploy:*"
+		"deploy": "run-s deploy:*"
 	},
 	"dependencies": {
 		"camelcase": "^5.3.1",
