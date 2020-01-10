@@ -1,26 +1,27 @@
-const { db } = require("../../initialize");
+const { db } = require("../initialize");
+
+const authTokenCache = {}
 
 module.exports = async (req, res, next) => {
-	const userid = req.headers["authorization-userid"] || req.body.userid;
-	if (!userid) {
+	const authToken = req.headers["authorization"].replace(/^Bearer /, "");
+	if(!authToken){
 		res.status(400);
-		return res.send(`no uid given`);
+		return res.send({ error: `authorization header is missing` });
 	}
-	const apiToken = req.headers["authorization-token"] || req.body.token;
-	if (!apiToken) {
-		res.status(400);
-		return res.send(`no auth token given`);
-	}
-	const userRef = db.collection("users").doc(userid);
-	const user = await userRef.get();
-	const userData = user.exists ? user.data() : undefined;
-	if (!userData || userData.api_token !== apiToken) {
-		res.status(401);
-		return res.send(`Invalid Credentials`);
+	let userid;
+	if(authTokenCache[authToken]){ // TODO: implement cache timeout
+		userid = authTokenCache[authToken]
+	}else{
+		const userSnapshot = await db.collection("auth_infos").where("code", "==", authToken).get();
+		if(userSnapshot.empty){
+			res.status(400);
+			return res.send({ error: `authorization token doesn not exist` });
+		}
+		userid = userSnapshot.docs[0].get("user_id");
+		authTokenCache[authToken] = userid;
 	}
 	req.auth = {
-		userid,
-		token: apiToken,
-	};
+		userid
+	}
 	return next();
 };

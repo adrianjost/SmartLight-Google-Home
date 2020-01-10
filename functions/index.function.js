@@ -2,7 +2,7 @@ const functions = require("firebase-functions");
 const app = require("restana")();
 
 app.use(require("./middleware/cors"));
-// app.use(require("./api/middleware/auth"));
+app.use(require("./middleware/auth"));
 
 app.get("/time", (req, res) => {
 	res.send(`server timestamp: ${Date.now()}`);
@@ -12,13 +12,20 @@ const intents = {
 	"action.devices.SYNC": require("./services/sync"),
 };
 
-app.get("/", async (req, res) => {
+app.post("/", async (req, res) => {
 	const intent = req.body.inputs[0].intent;
-	const payload = await intents[intent](req, res);
-	res.send({
-		requestId: req.body.requestId,
-		payload,
-	});
+	try{
+		const payload = await intents[intent](req, res);
+		res.send({
+			requestId: req.body.requestId,
+			payload,
+		});
+	}catch(error){
+		console.error(error)
+		res.send({
+			error
+		}, 500)
+	}
 });
 
 /*
