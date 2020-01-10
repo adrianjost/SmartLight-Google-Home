@@ -15,9 +15,9 @@
 		"shell": "firebase experimental:functions:shell",
 		"deploy:OAuth2UsersCreate": "firebase deploy --only functions:OAuth2UsersCreate",
 		"deploy:OAuth2UsersDelete": "firebase deploy --only functions:OAuth2UsersDelete",
-		"deploy:OAuth2/token": "firebase deploy --only functions:OAuth2/token",
-		"deploy:OAuth2/authorize": "firebase deploy --only functions:OAuth2/authorize",
-		"deploy:OAuth2/authentication": "firebase deploy --only functions:OAuth2/authentication",
+		"deploy:OAuth2token": "firebase deploy --only functions:OAuth2token",
+		"deploy:OAuth2authorize": "firebase deploy --only functions:OAuth2authorize",
+		"deploy:OAuth2authentication": "firebase deploy --only functions:OAuth2authentication",
 		"deploy:GoogleHome": "firebase deploy --only functions:GoogleHome",
 		"deploy": "run-p deploy:*"
 	},

@@ -6,22 +6,22 @@
 
 const functions = require("firebase-functions");
 const {
-  authorize,
+	authorize,
 	Configuration,
 	googleAccountAuthentication,
 	token,
 } = require("oauth2-firebase");
 
 Configuration.init({
-  crypto_auth_token_secret_key_32: functions.config().crypto
-  .auth_token_secret_key_32,
+	crypto_auth_token_secret_key_32: functions.config().crypto
+		.auth_token_secret_key_32,
 	project_api_key: functions.config().project.api_key,
 });
 
 module.exports = {
-	"OAuth2UsersCreate": require("./user-sync.function.js").CREATE,
-	"OAuth2UsersDelete": require("./user-sync.function.js").DELETE,
-	"OAuth2/token": token(),
-	"OAuth2/authorize": authorize(),
-	"OAuth2/authentication": googleAccountAuthentication(),
-}
+	OAuth2UsersCreate: require("./user-sync.function.js").CREATE,
+	OAuth2UsersDelete: require("./user-sync.function.js").DELETE,
+	OAuth2token: token(),
+	OAuth2authorize: authorize(),
+	OAuth2authentication: googleAccountAuthentication(),
+};
