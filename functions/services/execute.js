@@ -1,5 +1,5 @@
 const { db } = require("../utils/firebase");
-
+const { spectrumRgbToHex } = require("../utils/color");
 /*
 req.body:
 {
@@ -54,8 +54,16 @@ response:
 */
 
 const HandlerColorAbsolute = async (devices, params) => {
+	console.info(
+		"ℹ HandlerColorAbsolute",
+		JSON.stringify(devices),
+		JSON.stringify(params)
+	);
+
 	const deviceIds = devices.map((d) => d.id);
+	console.info("ℹ DEVICE IDs", JSON.stringify(deviceIds));
 	const color = SpectrumRgbToHex(params.color.spectrumRGB);
+	console.info("ℹ NEW COLOR", color);
 	const handler = deviceIds.map((deviceId) =>
 		db
 			.collection("units")
@@ -69,6 +77,11 @@ const HandlerColorAbsolute = async (devices, params) => {
 	);
 	await Promise.all(handler);
 	// TODO [#7]: implement error handling
+	console.info(
+		"ℹ ALL DEVICED UPDATED",
+		JSON.stringify(devices),
+		JSON.stringify(params)
+	);
 	return {
 		ids: deviceIds,
 		status: "SUCCESS",
@@ -85,15 +98,22 @@ const commandHandler = {
 };
 
 const executeCommand = async (commandObj) => {
-	const {
-		devices,
-		execution: { command, params },
-	} = commandObj;
+	console.info("ℹ COMMAND OBJECT", JSON.stringify(commandObj));
+	const devices = commandObj.devices;
+	// TODO: handle all execution steps in order
+	const execution = commandObj.execution[0];
+	console.info("ℹ EXECUTION OBJECT", JSON.stringify(execution));
+	const command = execution.command;
+	const params = execution.params;
+	console.info("ℹ COMMAND PARAMS", command, JSON.stringify(params));
+
 	return commandHandler[command](devices, params);
 };
 
 const execute = async (req) => {
-	const commandRequests = req.body.inputs.payload.commands;
+	console.info("ℹ EXECUTE EXECUTE", JSON.stringify(req.body));
+	const commandRequests = req.body.inputs[0].payload.commands;
+	console.info("ℹ REQUESTED COMMANDS:", JSON.stringify(commandRequests));
 	const commands = await Promise.all(commandRequests.map(executeCommand));
 	return {
 		agentUserId: req.auth.userid,
