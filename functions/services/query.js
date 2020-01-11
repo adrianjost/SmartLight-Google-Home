@@ -48,7 +48,7 @@ getUnitsByIds = async (unitIds) => {
 };
 
 const mapUnitToState = (unit) => {
-	// TODO: implement query responses for other traits
+	// TODO [#6]: implement  query responses for other traits
 	// const isOn = unit.state.gradient || unit.state.color !== "#000000";
 	const spectrumRgb = hexToSpectrumRgb(unit.state.color || "#000000");
 	return [
