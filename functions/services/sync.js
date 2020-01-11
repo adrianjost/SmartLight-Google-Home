@@ -117,9 +117,9 @@ const getLampInfo = (unit) => {
 		type: "action.devices.types.LIGHT",
 		traits: getTraits(unit.lamptype),
 		name: {
-			defaultNames: ["ESP8266-01 Lamp"],
+			defaultNames: [],
 			name: unit.name,
-			nicknames: unit.tags,
+			nicknames: unit.tags || [],
 		},
 		attributes: {
 			// TODO [#4]: implement colorTemperatureRange for WWCW lamps https://developers.google.com/assistant/smarthome/traits/colorsetting
@@ -151,7 +151,11 @@ const getDeviceInfo = (unit) => {
 };
 
 const sync = async (req) => {
+	console.info("ℹ EXECUTE SYNC", JSON.stringify(req.body));
 	const units = await getUnits(req.auth.userid);
+	console.info("ℹ UNITS:", JSON.stringify(units));
+	// TODO: use this implementation instead of the mock
+	// TODO: remove the filter when groups are implemented
 	return {
 		agentUserId: req.auth.userid,
 		devices: units.map(getDeviceInfo).filter((a) => a), // TODO: remove this filter when groups are implemented
