@@ -52,8 +52,46 @@ response:
   }
 }
 */
+const handlerOnOff = async (devices, params) => {
+	console.info(
+		"ℹ HandlerOnOff",
+		JSON.stringify(devices),
+		JSON.stringify(params)
+	);
 
-const HandlerColorAbsolute = async (devices, params) => {
+	const deviceIds = devices.map((d) => d.id);
+	console.info("ℹ DEVICE IDs", JSON.stringify(deviceIds));
+	const newHexColor = params.on ? "#ffffff" : "#000000";
+	console.info("ℹ NEW COLOR", newHexColor);
+	const handler = deviceIds.map((deviceId) =>
+		db
+			.collection("units")
+			.doc(deviceId)
+			.update({
+				state: {
+					color: newHexColor,
+					gradient: false,
+				},
+			})
+	);
+	await Promise.all(handler);
+	// TODO: implement error handling
+	console.info(
+		"ℹ ALL DEVICED UPDATED",
+		JSON.stringify(devices),
+		JSON.stringify(params)
+	);
+	return {
+		ids: deviceIds,
+		status: "SUCCESS",
+		states: {
+			on: params.on,
+			online: true,
+		},
+	};
+};
+
+const handlerColorAbsolute = async (devices, params) => {
 	console.info(
 		"ℹ HandlerColorAbsolute",
 		JSON.stringify(devices),
@@ -94,7 +132,8 @@ const HandlerColorAbsolute = async (devices, params) => {
 
 const commandHandler = {
 	// TODO [#8]: implement other traits
-	"action.devices.commands.ColorAbsolute": HandlerColorAbsolute,
+	"action.devices.commands.OnOff": handlerOnOff,
+	"action.devices.commands.ColorAbsolute": handlerColorAbsolute,
 };
 
 const executeCommand = async (commandObj) => {
