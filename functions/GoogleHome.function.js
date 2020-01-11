@@ -12,7 +12,7 @@ class UserinfoEndpoint extends AbstractProtectedResourceEndpoint {
 		const intent = req.body.inputs[0].intent;
 		console.info("ℹ HANDLE INTENT", intent);
 		const payload = await intents[intent](req);
-		console.info("ℹ RESPONSE", payload);
+		console.info("ℹ RESPONSE", JSON.stringify(payload));
 		return {
 			requestId: req.body.requestId,
 			payload,
