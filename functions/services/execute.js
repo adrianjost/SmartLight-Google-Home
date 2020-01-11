@@ -100,7 +100,7 @@ const commandHandler = {
 const executeCommand = async (commandObj) => {
 	console.info("ℹ COMMAND OBJECT", JSON.stringify(commandObj));
 	const devices = commandObj.devices;
-	// TODO [$5e1a11898150bd00074bb7a3]: handle all execution steps in order
+	// TODO [#10]: handle all execution steps in order
 	const execution = commandObj.execution[0];
 	console.info("ℹ EXECUTION OBJECT", JSON.stringify(execution));
 	const command = execution.command;

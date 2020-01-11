@@ -94,7 +94,7 @@ const executeCommand = async (commandObj) => {
 
 const disconnect = async (req) => {
 	console.info("ℹ EXECUTE DISCONNECT");
-	// TODO [$5e1a11898150bd00074bb7a2]: implement disconnect
+	// TODO [#9]: implement disconnect
 	return {
 		agentUserId: req.auth.userid,
 		statusCode: 200,
