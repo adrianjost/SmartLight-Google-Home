@@ -7,7 +7,6 @@
 1. install Yarn
 1. run `yarn install`
 1. create config `.runtimeconfig.json` with keys `crypto.auth_token_secret_key_32` and `project.api_key`
-1. load config `firebase functions:config:get > .runtimeconfig.json`
 1. Start developing (`yarn serve`)
 
 make sure you have a user with the permission `Firebase Admin SDK-Administrator-Service-Agent` created [here](https://console.cloud.google.com/iam-admin/iam) and the functions are executed by this account.
