@@ -81,7 +81,7 @@ const handlerOnOff = async (devices, params) => {
 			})
 	);
 	await Promise.all(handler);
-	// TODO: implement error handling
+	// TODO [$5e1a3b5d8cdafe000722cef6]: implement error handling
 	console.info(
 		"ℹ ALL DEVICES UPDATED",
 		JSON.stringify(devices),
