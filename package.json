@@ -26,6 +26,7 @@
 		"firebase-functions": "^3.3.0",
 		"glob": "^7.1.6",
 		"oauth2-firebase": "^0.1.30",
+		"object.fromentries": "^2.0.2",
 		"restana": "^4.0.3"
 	},
 	"devDependencies": {

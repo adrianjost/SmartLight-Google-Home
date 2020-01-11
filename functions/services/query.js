@@ -1,4 +1,11 @@
-const { db } = require("../utils/initialize");
+const { db } = require("../utils/firebase");
+const { hexToSpectrumRgb } = require("../utils/color");
+const fromEntries = require("object.fromentries");
+
+if (!Object.fromEntries) {
+	fromEntries.shim();
+}
+
 /*
 req.body:
 {
@@ -26,8 +33,7 @@ response:
   }
 */
 
-const query = async (req) => {
-	const unitIds = req.body.payload.devices.map((d) => d.id);
+getUnitsByIds = async (unitIds) => {
 	const unitQuerys = unitIds.map(async (unitId) => {
 		const unitSnapshot = await db
 			.collection("units")
@@ -38,18 +44,27 @@ const query = async (req) => {
 		}
 		return unitSnapshot.data();
 	});
-	const unitStates = await Promise.all(unitQuerys);
-	devices = {};
-	unitStates.forEach((unit) => {
-		// TODO: implement  query responses for other traits
-		// const isOn = unit.state.gradient || unit.state.color !== "#000000";
-		const spectrumRgb = parseInt((unit.state.color || "#000000").slice(1), 16);
-		devices[unit.id] = {
+	return await Promise.all(unitQuerys);
+};
+
+const mapUnitToState = (unit) => {
+	// TODO: implement query responses for other traits
+	// const isOn = unit.state.gradient || unit.state.color !== "#000000";
+	const spectrumRgb = hexToSpectrumRgb(unit.state.color || "#000000");
+	return [
+		unit.id,
+		{
 			// "on": isOn,
 			online: true,
 			spectrumRgb,
-		};
-	});
+		},
+	];
+};
+
+const query = async (req) => {
+	const unitIds = req.body.inputs.payload.devices.map((d) => d.id);
+	const units = await getUnitsByIds(unitIds);
+	const devices = Object.fromEntries(units.map(mapUnitToState));
 	return {
 		agentUserId: req.auth.userid,
 		devices,

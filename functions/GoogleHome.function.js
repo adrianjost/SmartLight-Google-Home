@@ -6,6 +6,7 @@ class UserinfoEndpoint extends AbstractProtectedResourceEndpoint {
 		const intents = {
 			"action.devices.SYNC": require("./services/sync"),
 			"action.devices.QUERY": require("./services/query"),
+			"action.devices.EXECUTE": require("./services/execute"),
 		};
 		req.auth = { userid: endpointInfo.userId };
 		const intent = req.body.inputs[0].intent;

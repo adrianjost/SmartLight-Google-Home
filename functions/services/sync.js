@@ -1,4 +1,4 @@
-const { db } = require("../utils/initialize");
+const { db } = require("../utils/firebase");
 const pkg = require("../../package.json");
 /*
 req.body:
