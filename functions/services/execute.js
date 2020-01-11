@@ -91,8 +91,8 @@ const handlerOnOff = async (devices, params) => {
 		ids: deviceIds,
 		status: "SUCCESS",
 		states: {
-			on: params.on,
 			online: true,
+			on: params.on,
 		},
 	};
 };
@@ -130,8 +130,9 @@ const handlerColorAbsolute = async (devices, params) => {
 		ids: deviceIds,
 		status: "SUCCESS",
 		states: {
-			spectrumRgb: params.color.spectrumRGB,
 			online: true,
+			on: true,
+			spectrumRgb: params.color.spectrumRGB,
 		},
 	};
 };
