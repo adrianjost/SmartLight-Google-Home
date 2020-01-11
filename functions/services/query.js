@@ -62,9 +62,13 @@ const mapUnitToState = (unit) => {
 };
 
 const query = async (req) => {
-	const unitIds = req.body.inputs.payload.devices.map((d) => d.id);
+	console.info("ℹ EXECUTE QUERY", JSON.stringify(req.body));
+	const unitIds = req.body.inputs[0].payload.devices.map((d) => d.id);
+	console.info("ℹ REQUESTED UNIT_IDs:", JSON.stringify(unitIds));
 	const units = await getUnitsByIds(unitIds);
+	console.info("ℹ UNITS:", JSON.stringify(units));
 	const devices = Object.fromEntries(units.map(mapUnitToState));
+	console.info("ℹ DEVICES", devices);
 	return {
 		agentUserId: req.auth.userid,
 		devices,
