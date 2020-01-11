@@ -62,7 +62,7 @@ const HandlerColorAbsolute = async (devices, params) => {
 
 	const deviceIds = devices.map((d) => d.id);
 	console.info("ℹ DEVICE IDs", JSON.stringify(deviceIds));
-	const color = SpectrumRgbToHex(params.color.spectrumRGB);
+	const color = spectrumRgbToHex(params.color.spectrumRGB);
 	console.info("ℹ NEW COLOR", color);
 	const handler = deviceIds.map((deviceId) =>
 		db
