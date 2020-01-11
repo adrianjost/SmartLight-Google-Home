@@ -108,6 +108,7 @@ const getLampInfo = (unit) => {
 		return [
 			// "action.devices.traits.OnOff",
 			// "action.devices.traits.Brightness",
+			// "action.devices.traits.LightEffects", // Gradients
 			"action.devices.traits.ColorSetting",
 		];
 	};

@@ -5,6 +5,7 @@ class UserinfoEndpoint extends AbstractProtectedResourceEndpoint {
 		console.info("ℹ ACCESS GRANTED - HANDLE REQUEST");
 		const intents = {
 			"action.devices.SYNC": require("./services/sync"),
+			"action.devices.QUERY": require("./services/query"),
 		};
 		req.auth = { userid: endpointInfo.userId };
 		const intent = req.body.inputs[0].intent;
