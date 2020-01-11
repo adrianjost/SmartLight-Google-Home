@@ -68,7 +68,7 @@ const HandlerColorAbsolute = async (devices, params) => {
 			})
 	);
 	await Promise.all(handler);
-	// TODO [$5e19ef58b7e11900076bfa68]: implement error handling
+	// TODO [#7]: implement error handling
 	return {
 		ids: deviceIds,
 		status: "SUCCESS",
@@ -80,7 +80,7 @@ const HandlerColorAbsolute = async (devices, params) => {
 };
 
 const commandHandler = {
-	// TODO [$5e19ef58b7e11900076bfa69]: implement other traits
+	// TODO [#8]: implement other traits
 	"action.devices.commands.ColorAbsolute": HandlerColorAbsolute,
 };
 
