@@ -10,7 +10,7 @@ const {
 	Configuration,
 	googleAccountAuthentication,
 	token,
-} = require("oauth2-firebase");
+} = require("@adrianjost/oauth2-firebase");
 
 Configuration.init({
 	crypto_auth_token_secret_key_32: functions.config().crypto
