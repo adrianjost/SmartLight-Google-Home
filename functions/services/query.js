@@ -41,7 +41,7 @@ const query = async (req) => {
 	const unitStates = await Promise.all(unitQuerys);
 	devices = {};
 	unitStates.forEach((unit) => {
-		// TODO: implement  query responses for other traits
+		// TODO [$5e19e2b705528c0007b2e1ad]: implement  query responses for other traits
 		// const isOn = unit.state.gradient || unit.state.color !== "#000000";
 		const spectrumRgb = parseInt((unit.state.color || "#000000").slice(1), 16);
 		devices[unit.id] = {
