@@ -71,4 +71,7 @@ module.exports = functions
 		timeoutSeconds: 30,
 		memory: "512MB",
 	})
-	.https.onRequest(app.callback());
+	.https.onRequest((req, res) => {
+		console.info("ℹ Request:", req.method, req.originalUrl);
+		return app.callback()(req, res);
+	});
