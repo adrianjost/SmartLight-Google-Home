@@ -1,5 +1,11 @@
 const { db } = require("../utils/firebase");
 const { spectrumRgbToHex } = require("../utils/color");
+const flat = require("array.prototype.flat");
+
+if (!Array.prototype.flat) {
+	flat.shim();
+}
+
 /*
 req.body:
 {
@@ -77,7 +83,7 @@ const handlerOnOff = async (devices, params) => {
 	await Promise.all(handler);
 	// TODO: implement error handling
 	console.info(
-		"ℹ ALL DEVICED UPDATED",
+		"ℹ ALL DEVICES UPDATED",
 		JSON.stringify(devices),
 		JSON.stringify(params)
 	);
@@ -116,7 +122,7 @@ const handlerColorAbsolute = async (devices, params) => {
 	await Promise.all(handler);
 	// TODO [#7]: implement error handling
 	console.info(
-		"ℹ ALL DEVICED UPDATED",
+		"ℹ ALL DEVICES UPDATED",
 		JSON.stringify(devices),
 		JSON.stringify(params)
 	);
@@ -139,21 +145,31 @@ const commandHandler = {
 const executeCommand = async (commandObj) => {
 	console.info("ℹ COMMAND OBJECT", JSON.stringify(commandObj));
 	const devices = commandObj.devices;
-	// TODO [#10]: handle all execution steps in order
-	const execution = commandObj.execution[0];
-	console.info("ℹ EXECUTION OBJECT", JSON.stringify(execution));
-	const command = execution.command;
-	const params = execution.params;
-	console.info("ℹ COMMAND PARAMS", command, JSON.stringify(params));
-
-	return commandHandler[command](devices, params);
+	let out = [];
+	for (let index = 0; index < commandObj.execution.length; index++) {
+		const execution = commandObj.execution[index];
+		console.info("ℹ EXECUTION OBJECT", JSON.stringify(execution));
+		const command = execution.command;
+		const params = execution.params;
+		console.info("ℹ COMMAND PARAMS", command, JSON.stringify(params));
+		// eslint-disable-next-line no-await-in-loop
+		const res = await commandHandler[command](devices, params);
+		if (Array.isArray(res)) {
+			out.push(...res);
+		} else {
+			out.push(res);
+		}
+	}
+	return out;
 };
 
 const execute = async (req) => {
 	console.info("ℹ EXECUTE EXECUTE", JSON.stringify(req.body));
 	const commandRequests = req.body.inputs[0].payload.commands;
 	console.info("ℹ REQUESTED COMMANDS:", JSON.stringify(commandRequests));
-	const commands = await Promise.all(commandRequests.map(executeCommand));
+	const commands = (
+		await Promise.all(commandRequests.map(executeCommand))
+	).flat(1);
 	return {
 		agentUserId: req.auth.userid,
 		commands,
