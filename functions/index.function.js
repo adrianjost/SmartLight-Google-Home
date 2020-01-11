@@ -13,8 +13,8 @@ const intents = {
 };
 
 app.post("/", async (req, res) => {
-	const intent = req.body.inputs[0].intent;
 	console.info("ℹ EXECUTE:", req.body);
+	const intent = req.body.inputs[0].intent;
 	try {
 		const payload = await intents[intent](req, res);
 		console.info("ℹ RESPONSE", payload);
