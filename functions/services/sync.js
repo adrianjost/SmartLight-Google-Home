@@ -1,4 +1,4 @@
-const { db } = require("../initialize");
+const { db } = require("../utils/initialize");
 const pkg = require("../../package.json");
 /*
 req.body:
@@ -53,6 +53,7 @@ const getUnits = async (userid) => {
 	if (unitCache[userid]) {
 		return unitCache[userid];
 	}
+
 	const unitSnapchots = await db
 		.collection("units")
 		.where("created_by", "==", userid)
@@ -148,7 +149,7 @@ const getDeviceInfo = (unit) => {
 	}
 };
 
-const sync = async (req, res) => {
+const sync = async (req) => {
 	const units = await getUnits(req.auth.userid);
 	return {
 		agentUserId: req.auth.userid,
