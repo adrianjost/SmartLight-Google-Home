@@ -1,3 +1,10 @@
+require("./functions/utils/logger")({
+	replaceConsole: true,
+	logLevel: "warn",
+	modifier: (...a) =>
+		a.map((b) => (typeof b === "object" ? JSON.stringify(b) : b)),
+});
+
 // OAuth Server
 Object.assign(exports, require("./functions/oauth2.function.js"));
 
