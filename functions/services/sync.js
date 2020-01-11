@@ -154,8 +154,8 @@ const sync = async (req) => {
 	console.info("ℹ EXECUTE SYNC", JSON.stringify(req.body));
 	const units = await getUnits(req.auth.userid);
 	console.info("ℹ UNITS:", JSON.stringify(units));
-	// TODO: use this implementation instead of the mock
-	// TODO: remove the filter when groups are implemented
+	// TODO [$5e1a11898150bd00074bb7a4]: use this implementation instead of the mock
+	// TODO [$5e1a11898150bd00074bb7a5]: remove the filter when groups are implemented
 	return {
 		agentUserId: req.auth.userid,
 		devices: units.map(getDeviceInfo).filter((a) => a), // TODO: remove this filter when groups are implemented
