@@ -6,6 +6,7 @@
 
 1. install Yarn
 1. run `yarn install`
+1. set credentials: `set GOOGLE_APPLICATION_CREDENTIALS=../path/to.json` ([more infos](https://firebase.google.com/docs/admin/setup#initialize-sdk))
 1. create config `.runtimeconfig.json` with keys `crypto.auth_token_secret_key_32` and `project.api_key`
 1. Start developing (`yarn serve`)
 

@@ -2,9 +2,19 @@ const {
 	AbstractProtectedResourceEndpoint,
 } = require("@adrianjost/oauth2-firebase");
 
+// const { getUnitsByUserid } = require("./utils/units");
+// getUnitsByUserid("IcAd2hRhBoRs5WTORWTTCSaRSvy2")
+// 	.then((units) => {
+// 		console.log("GOT UNITS", units);
+// 	})
+// 	.catch((error) => {
+// 		console.error("ERROR", error);
+// 	});
+
 class UserinfoEndpoint extends AbstractProtectedResourceEndpoint {
 	async handleRequest(req, endpointInfo) {
 		console.info("ℹ ACCESS GRANTED - HANDLE REQUEST");
+		console.debug("ℹ AUTHORIZATION HEADER:", req.headers.authorization);
 		const intents = {
 			"action.devices.SYNC": require("./services/sync"),
 			"action.devices.QUERY": require("./services/query"),
@@ -13,13 +23,21 @@ class UserinfoEndpoint extends AbstractProtectedResourceEndpoint {
 		};
 		req.auth = { userid: endpointInfo.userId };
 		const intent = req.body.inputs[0].intent;
-		console.info("ℹ HANDLE INTENT", intent);
-		const payload = await intents[intent](req);
-		console.info("ℹ RESPONSE", JSON.stringify(payload));
-		return {
+		let payload;
+		try {
+			console.info("ℹ HANDLE INTENT", intent);
+			payload = await intents[intent](req);
+		} catch (error) {
+			console.error("❌ ERROR", error);
+			throw error;
+		}
+		console.info("ℹ PAYLOAD GENERATED", payload);
+		const response = {
 			requestId: req.body.requestId,
 			payload,
 		};
+		console.info("ℹ RESPONSE", response);
+		return response;
 	}
 
 	validateScope(scopes) {

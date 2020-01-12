@@ -56,7 +56,7 @@ response:
 const HandlerColorAbsolute = async (devices, params) => {
 	const deviceIds = devices.map((d) => d.id);
 	const color = SpectrumRgbToHex(params.color.spectrumRGB);
-	const handler = deviceIds.map((deviceId) =>
+	const unitUpdates = deviceIds.map((deviceId) =>
 		db
 			.collection("units")
 			.doc(deviceId)
@@ -67,7 +67,7 @@ const HandlerColorAbsolute = async (devices, params) => {
 				},
 			})
 	);
-	await Promise.all(handler);
+	await Promise.all(unitUpdates);
 	// TODO [#7]: implement error handling
 	return {
 		ids: deviceIds,

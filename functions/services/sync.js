@@ -1,5 +1,6 @@
-const { db } = require("../utils/firebase");
 const pkg = require("../../package.json");
+const { getUnitsByUserid } = require("../utils/units");
+
 /*
 req.body:
 {
@@ -46,26 +47,6 @@ response:
 }
 */
 
-const unitCache = {};
-
-const getUnits = async (userid) => {
-	// TODO [#1]: implement cache timeout
-	if (unitCache[userid]) {
-		return unitCache[userid];
-	}
-
-	const unitSnapchots = await db
-		.collection("units")
-		.where("created_by", "==", userid)
-		.get();
-	const units = [];
-	unitSnapchots.forEach((doc) => {
-		units.push(doc.data());
-	});
-	unitCache[userid] = units;
-	return units;
-};
-
 /*
 unit:
 {
@@ -101,13 +82,14 @@ unit:
 const getGroupInfo = (unit) => {
 	return false;
 };
+
 const getLampInfo = (unit) => {
 	const getTraits = (lamptype) => {
 		// TODO [#2]: differentiate between RGB and WWCW lamps, currenlty only RGB is implemented
 		// TODO [#3]: implement more traits https://developers.google.com/assistant/smarthome/traits
 		return [
 			"action.devices.traits.OnOff",
-			// "action.devices.traits.Brightness",
+			"action.devices.traits.Brightness",
 			// "action.devices.traits.LightEffects", // Gradients
 			"action.devices.traits.ColorSetting",
 		];
@@ -125,7 +107,7 @@ const getLampInfo = (unit) => {
 			// TODO [#4]: implement colorTemperatureRange for WWCW lamps https://developers.google.com/assistant/smarthome/traits/colorsetting
 			colorModel: "rgb",
 			commandOnlyOnOff: true,
-			// commandOnlyBrightness: true,
+			commandOnlyBrightness: true,
 			commandOnlyColorSetting: true,
 		},
 		willReportState: true,
@@ -152,7 +134,7 @@ const getDeviceInfo = (unit) => {
 
 const sync = async (req) => {
 	console.info("ℹ EXECUTE SYNC", JSON.stringify(req.body));
-	const units = await getUnits(req.auth.userid);
+	const units = await getUnitsByUserid(req.auth.userid);
 	console.info("ℹ UNITS:", JSON.stringify(units));
 	// TODO [#11]: use this implementation instead of the mock
 	// TODO [#12]: remove the filter when groups are implemented
