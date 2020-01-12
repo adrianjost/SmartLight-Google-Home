@@ -18,7 +18,7 @@ const handlerBrightnessAbsolute = async (devices, params, userid) => {
 		return await setUnitState(unit, newState);
 	});
 	const updatedUnits = await Promise.all(unitUpdates);
-	// TODO: implement error handling
+	// TODO [$5e1b49d000551a0007ac98e2]: implement error handling
 	console.info("ℹ ALL DEVICES UPDATED", updatedUnits);
 	return updatedUnits.map((unit) => ({
 		ids: [unit.id],
