@@ -2,7 +2,9 @@ require("./functions/utils/logger")({
 	replaceConsole: true,
 	logLevel: "warn",
 	modifier: (...a) =>
-		a.map((b) => (typeof b === "object" ? JSON.stringify(b) : b)),
+		a.map((b) =>
+			typeof b === "object" && !(b instanceof Error) ? JSON.stringify(b) : b
+		),
 });
 
 // OAuth Server
