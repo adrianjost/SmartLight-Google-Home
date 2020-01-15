@@ -26,8 +26,8 @@ const requestSync = async (userid) => {
 		.catch(console.error);
 };
 
-const reportState = async (userid, state) => {
-	const unitState = getUnitState({ state });
+const reportState = async (userid, unit) => {
+	const unitState = getUnitState(unit);
 	return app
 		.reportState({
 			requestId: Math.random().toString(),
@@ -63,7 +63,7 @@ async function handleUnitChange(change) {
 	if (JSON.stringify(unitBefore.state) !== JSON.stringify(unitAfter.state)) {
 		// Unit State has changed
 		console.log("ℹ report state...", unitAfter.created_by);
-		await reportState(unitAfter.created_by, unitAfter.created_by);
+		await reportState(unitAfter.created_by, unitAfter);
 		return;
 	}
 	// Unit Meta Data has changed
