@@ -27,18 +27,31 @@ const requestSync = async (userid) => {
 };
 
 const reportState = async (userid, unit) => {
+	console.log("ℹ GENERATE UNIT STATE", unit);
 	const unitState = getUnitState(unit);
+	// convert spectrumRGB name according to https://github.com/actions-on-google/smart-home-nodejs/issues/257#issuecomment-461208257
+	delete unitState["online"];
+	if (unitState.hasOwnProperty("spectrumRgb")) {
+		unitState.color = {
+			spectrumRGB: unitState["spectrumRgb"],
+		};
+		delete unitState["spectrumRgb"];
+	}
+	const payload = {
+		devices: {
+			states: {
+				[unit.id]: unitState,
+			},
+		},
+	};
+	console.log("ℹ GENERATED PAYLOAD", payload);
 	return app
 		.reportState({
-			requestId: Math.random().toString(),
+			requestId: Math.random()
+				.toString()
+				.slice(3),
 			agentUserId: userid,
-			payload: {
-				devices: {
-					states: {
-						[unit.id]: unitState,
-					},
-				},
-			},
+			payload,
 		})
 		.then((resp) => {
 			console.log("ℹ Reported State", userid, resp);
@@ -51,7 +64,8 @@ async function handleUnitChange(change) {
 	const unitBefore = change.before.data();
 	const unitAfter = change.after.data();
 
-	if (!isUserRegistered(unitAfter.created_by)) {
+	const handleRequest = await isUserRegistered(unitAfter.created_by);
+	if (!handleRequest) {
 		console.log(
 			"ℹ user is not connected to API => DO NOT PUSH EVENTS",
 			unitAfter.created_by
@@ -75,7 +89,7 @@ async function handleUnitChange(change) {
 exports = module.exports = functions
 	.runWith({
 		timeoutSeconds: 30,
-		memory: "128MB",
+		memory: "512MB",
 	})
 	.firestore.document("units/{unitId}")
 	.onUpdate(handleUnitChange);

@@ -4,6 +4,7 @@ const registrationCache = {};
 
 /**
  * @param  {string} userid
+ * @return {Promise}
  */
 const registerUser = async (userid) => {
 	console.log("ℹ REGISTER USER", userid);
@@ -19,6 +20,7 @@ const registerUser = async (userid) => {
 
 /**
  * @param  {string} userid
+ * @return {Promise}
  */
 const disconnectUser = async (userid) => {
 	console.log("ℹ DISCONNECT USER", userid);
@@ -34,7 +36,7 @@ const disconnectUser = async (userid) => {
 
 /**
  * @param  {string} userid
- * @return {boolean} is the user connected to the Google Home Graph API
+ * @return {Promise<boolean>} is the user connected to the Google Home Graph API
  */
 const isUserRegistered = async (userid) => {
 	const cachedStatus = registrationCache[userid];

@@ -6,6 +6,9 @@
 	"plugins": ["promise"],
 	"extends": "eslint:recommended",
 	"rules": {
+		// no-prototype-builtinsIt's safe to ignore because we never mutate the prototype of objects
+		"no-prototype-builtins": "off",
+
 		// Removed rule "disallow the use of console" from recommended eslint rules
 		"no-console": "off",
 

@@ -1,6 +1,6 @@
 require("./functions/utils/logger")({
 	replaceConsole: true,
-	logLevel: "log",
+	logLevel: "warn",
 	modifier: (...a) =>
 		a.map((b) =>
 			typeof b === "object" && !(b instanceof Error) ? JSON.stringify(b) : b
