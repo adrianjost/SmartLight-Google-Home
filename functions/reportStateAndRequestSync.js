@@ -15,22 +15,22 @@ const app = smarthome({
 	debug: true,
 });
 
-const requestSync = async (userId) => {
+const requestSync = async (userid) => {
 	return app
-		.requestSync(userId)
+		.requestSync(userid)
 		.then((resp) => {
-			console.log("Requested Sync", resp);
+			console.log("ℹ Requested Sync", userid, resp);
 			return resp;
 		})
 		.catch(console.error);
 };
 
-const reportState = async (unit) => {
-	const unitState = getUnitState(unit);
+const reportState = async (userid, state) => {
+	const unitState = getUnitState(state);
 	return app
 		.reportState({
 			requestId: Math.random().toString(),
-			agentUserId: unit.created_by,
+			agentUserId: userid,
 			payload: {
 				devices: {
 					states: {
@@ -40,7 +40,7 @@ const reportState = async (unit) => {
 			},
 		})
 		.then((resp) => {
-			console.log("Reported State", resp);
+			console.log("ℹ Reported State", userid, resp);
 			return resp;
 		})
 		.catch(console.error);
@@ -51,10 +51,12 @@ async function handleUnitChange(change) {
 	const unitAfter = change.after.data();
 	if (JSON.stringify(unitBefore.state) !== JSON.stringify(unitAfter.state)) {
 		// Unit State has changed
-		await reportState(unitAfter);
+		console.log("ℹ report state...", unitAfter.created_by);
+		await reportState(unitAfter.created_by, unitAfter.created_by);
 		return;
 	}
 	// Unit Meta Data has changed
+	console.log("ℹ request sync...", unitAfter.created_by);
 	await requestSync(unitAfter.created_by);
 	return;
 }
