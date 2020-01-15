@@ -17,6 +17,7 @@
 		"deploy:authorize": "firebase deploy --only functions:authorize",
 		"deploy:authentication": "firebase deploy --only functions:authentication",
 		"deploy:GoogleHome": "firebase deploy --only functions:GoogleHome",
+		"deploy:ReportStateAndRequestSync": "firebase deploy --only functions:ReportStateAndRequestSync",
 		"deploy": "concurrently \"npm:deploy:*\""
 	},
 	"dependencies": {
