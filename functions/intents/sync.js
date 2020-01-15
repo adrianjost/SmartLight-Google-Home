@@ -1,5 +1,6 @@
 const pkg = require("../../package.json");
 const { getUnitsByUserid } = require("../utils/units");
+const { registerUser } = require("../utils/user");
 
 /*
 req.body:
@@ -134,6 +135,7 @@ const getDeviceInfo = (unit) => {
 
 const sync = async (req) => {
 	console.info("ℹ EXECUTE SYNC", JSON.stringify(req.body));
+	await registerUser(req.auth.userid);
 	const units = await getUnitsByUserid(req.auth.userid);
 	console.info("ℹ UNITS:", JSON.stringify(units));
 	// TODO [#11]: use this implementation instead of the mock

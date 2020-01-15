@@ -1,6 +1,7 @@
 const { smarthome } = require("actions-on-google");
 const functions = require("firebase-functions");
 const { getUnitState } = require("./utils/units");
+const { isUserRegistered } = require("./utils/user");
 
 const jwt = JSON.parse(
 	Buffer.from(functions.config().crypto.jwt, "base64").toString("ascii")
@@ -49,6 +50,16 @@ const reportState = async (userid, state) => {
 async function handleUnitChange(change) {
 	const unitBefore = change.before.data();
 	const unitAfter = change.after.data();
+
+	if (!isUserRegistered(unitAfter.created_by)) {
+		console.log(
+			"ℹ user is not connected to API => DO NOT PUSH EVENTS",
+			unitAfter.created_by
+		);
+		// user has not enabled this API
+		return;
+	}
+
 	if (JSON.stringify(unitBefore.state) !== JSON.stringify(unitAfter.state)) {
 		// Unit State has changed
 		console.log("ℹ report state...", unitAfter.created_by);

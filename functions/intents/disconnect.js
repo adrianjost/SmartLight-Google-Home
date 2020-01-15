@@ -1,4 +1,5 @@
 const { db } = require("../utils/firebase");
+const { disconnectUser } = require("../utils/user");
 
 /*
 req.body:
@@ -94,7 +95,7 @@ const executeCommand = async (commandObj) => {
 
 const disconnect = async (req) => {
 	console.info("ℹ EXECUTE DISCONNECT");
-	// TODO [#9]: implement disconnect
+	await disconnectUser(req.auth.userid);
 	return {
 		agentUserId: req.auth.userid,
 		statusCode: 200,
