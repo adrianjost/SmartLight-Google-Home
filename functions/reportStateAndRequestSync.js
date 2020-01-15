@@ -27,7 +27,7 @@ const requestSync = async (userid) => {
 };
 
 const reportState = async (userid, state) => {
-	const unitState = getUnitState(state);
+	const unitState = getUnitState({ state });
 	return app
 		.reportState({
 			requestId: Math.random().toString(),
