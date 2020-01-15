@@ -59,7 +59,7 @@ const getUnitState = ({ state }) => {
 	const color = String(state.color || "#000000");
 	const isOn = Boolean(state.gradient || state.color !== "#000000");
 	const spectrumRgb = hexToSpectrumRgb(color || "#000000");
-	const brightness = getLuminance(color || "#000000");
+	const brightness = Math.round(getLuminance(color || "#000000"));
 	return {
 		on: isOn,
 		online: true,

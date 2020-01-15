@@ -14,7 +14,11 @@ const {
 class UserinfoEndpoint extends AbstractProtectedResourceEndpoint {
 	async handleRequest(req, endpointInfo) {
 		console.info("ℹ ACCESS GRANTED - HANDLE REQUEST");
-		console.debug("ℹ AUTHORIZATION HEADER:", req.headers.authorization);
+		console.debug(
+			"ℹ AUTHORIZATION HEADER:",
+			req.headers.authorization,
+			endpointInfo.userId
+		);
 		const intents = {
 			"action.devices.SYNC": require("./services/sync"),
 			"action.devices.QUERY": require("./services/query"),
