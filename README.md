@@ -1,4 +1,4 @@
-# SmartLight Firebase Functions
+# SmartLight Google Home
 
 ![CI](https://github.com/adrianjost/SmartLight-Google-Home/workflows/CI/badge.svg) [![Dependency Status](https://david-dm.org/adrianjost/SmartLight-Google-Home.svg)](https://david-dm.org/adrianjost/SmartLight-Google-Home) [![Dependency Status](https://david-dm.org/adrianjost/SmartLight-Google-Home/dev-status.svg)](https://david-dm.org/adrianjost/SmartLight-Google-Home?type=dev)
 

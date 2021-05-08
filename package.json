@@ -1,9 +1,9 @@
 {
-	"name": "smartlight-api",
+	"name": "smartlight-google-home",
 	"author": "Adrian Jost",
 	"version": "0.0.1",
 	"license": "MIT",
-	"description": "SmartLight V3 API Cloud Functions",
+	"description": "SmartLight Google Home",
 	"engines": {
 		"node": "10"
 	},
