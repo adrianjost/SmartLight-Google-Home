@@ -29,6 +29,9 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
+    concurrency: 
+      group: "SmartLight-Google-Home-Action-Deploy"
+      cancel-in-progress: true
     needs:
       - lint
       # - test
