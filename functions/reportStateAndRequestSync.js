@@ -47,9 +47,7 @@ const reportState = async (userid, unit) => {
 	console.log("ℹ GENERATED PAYLOAD", payload);
 	return app
 		.reportState({
-			requestId: Math.random()
-				.toString()
-				.slice(3),
+			requestId: Math.random().toString().slice(3),
 			agentUserId: userid,
 			payload,
 		})

@@ -33,10 +33,7 @@ const getUnitById = async (unitid, userid) => {
 	if (!userid) {
 		throw new Error("param userid is missing");
 	}
-	const unitSnapchots = await db
-		.collection("units")
-		.doc(unitid)
-		.get();
+	const unitSnapchots = await db.collection("units").doc(unitid).get();
 	if (!unitSnapchots.exists) {
 		throw new Error("unit does not exists");
 	}
@@ -75,12 +72,9 @@ const getUnitState = ({ state }) => {
  * @return The Updated Unit
  */
 const setUnitState = async (unit, newState) => {
-	await db
-		.collection("units")
-		.doc(unit.id)
-		.update({
-			state: newState,
-		});
+	await db.collection("units").doc(unit.id).update({
+		state: newState,
+	});
 	unit.state = newState;
 	return unit;
 };
