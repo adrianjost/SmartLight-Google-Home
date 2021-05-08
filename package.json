@@ -38,7 +38,7 @@
 		"restana": "^4.0.3"
 	},
 	"devDependencies": {
-		"concurrently": "^5.0.2",
+		"concurrently": "^6.1.0",
 		"eslint": "^6.8.0",
 		"eslint-plugin-promise": "^4.2.1",
 		"firebase-tools": "^9.10.2",
