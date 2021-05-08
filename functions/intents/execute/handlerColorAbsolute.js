@@ -16,7 +16,7 @@ const handlerColorAbsolute = async (devices, params, userid) => {
 		}
 		return await setUnitState(unit, {
 			color: newColor,
-			gradient: false,
+			type: newColor === "#000000" ? "OFF" : "MANUAL",
 		});
 	});
 	const updatedUnits = await Promise.all(handler);

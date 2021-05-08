@@ -13,7 +13,7 @@ const handlerBrightnessAbsolute = async (devices, params, userid) => {
 		const newColor = setLuminance(currentColor, params.brightness);
 		const newState = {
 			color: newColor,
-			gradient: false,
+			type: newColor === "#000000" ? "OFF" : "MANUAL",
 		};
 		return await setUnitState(unit, newState);
 	});

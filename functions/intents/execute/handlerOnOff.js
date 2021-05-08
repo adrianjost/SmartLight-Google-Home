@@ -16,7 +16,7 @@ const handlerOnOff = async (devices, params, userid) => {
 		}
 		return await setUnitState(unit, {
 			color: shouldBeOn ? "#ffffff" : "#000000",
-			gradient: false,
+			type: newColor === "#000000" ? "OFF" : "AUTO",
 		});
 	});
 	const updatedUnits = await Promise.all(unitUpdates);
