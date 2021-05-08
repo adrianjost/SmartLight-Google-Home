@@ -93,9 +93,23 @@ const getLampInfo = (unit) => {
 			"action.devices.traits.Brightness",
 			// "action.devices.traits.LightEffects", // Gradients
 			"action.devices.traits.ColorSetting",
-			// "action.devices.traits.ColorTemperature"
 		];
 	};
+
+	const attributes = {
+		commandOnlyOnOff: true,
+		commandOnlyBrightness: true,
+		commandOnlyColorSetting: true,
+	};
+	if (unit.type === "WWCW") {
+		attributes.colorTemperatureRange = {
+			temperatureMinK: unit.tempMin,
+			temperatureMaxK: unit.tempMax,
+		};
+	} else if (unit.type === "RGB") {
+		attributes.colorModel = "rgb";
+	}
+
 	return {
 		id: unit.id,
 		type: "action.devices.types.LIGHT",
@@ -105,13 +119,7 @@ const getLampInfo = (unit) => {
 			name: unit.name,
 			nicknames: unit.tags || [],
 		},
-		attributes: {
-			// TODO [#4]: implement colorTemperatureRange for WWCW lamps https://developers.google.com/assistant/smarthome/traits/colorsetting
-			colorModel: "rgb",
-			commandOnlyOnOff: true,
-			commandOnlyBrightness: true,
-			commandOnlyColorSetting: true,
-		},
+		attributes,
 		willReportState: true,
 		deviceInfo: {
 			manufacturer: "DIY",
