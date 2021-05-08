@@ -1,11 +1,11 @@
 {
 	"name": "smartlight-google-home",
 	"author": "Adrian Jost",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"license": "MIT",
 	"description": "SmartLight Google Home",
 	"engines": {
-		"node": "10"
+		"node": "12"
 	},
 	"scripts": {
 		"lint": "npm run lint:fix",
