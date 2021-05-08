@@ -37,12 +37,6 @@ const reportState = async (userid, unit) => {
 		};
 		delete unitState["spectrumRgb"];
 	}
-	if (unitState.hasOwnProperty("temperatureK")) {
-		unitState.color = {
-			temperature: unitState["temperatureK"],
-		};
-		delete unitState["temperatureK"];
-	}
 	const payload = {
 		devices: {
 			states: {
