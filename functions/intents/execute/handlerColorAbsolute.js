@@ -11,23 +11,29 @@ const handlerColorAbsolute = async (devices, params, userid) => {
 	const units = await getUnitsByIds(deviceIds, userid);
 
 	unitUpdates = units.map(async (unit) => {
-		if (unit.state.color === newColor) {
-			return unit;
+		try {
+			if (unit.state.color === newColor) {
+				return unit;
+			}
+			await setUnitState(unit, {
+				color: newColor,
+				type: newColor === "#000000" ? "OFF" : "MANUAL",
+			});
+			return {
+				ids: [unit.id],
+				status: "SUCCESS",
+				states: getUnitState(unit),
+			};
+		} catch (error) {
+			console.error(error);
+			return {
+				ids: [unit.id],
+				status: "ERROR",
+				errorCode: "hardError",
+			};
 		}
-		return await setUnitState(unit, {
-			color: newColor,
-			type: newColor === "#000000" ? "OFF" : "MANUAL",
-		});
 	});
-	const updatedUnits = await Promise.all(handler);
-
-	// TODO [#13]: implement error handling
-	console.info("ℹ ALL DEVICES UPDATED", updatedUnits);
-	return updatedUnits.map((unit) => ({
-		ids: [unit.id],
-		status: "SUCCESS",
-		states: getUnitState(unit),
-	}));
+	return await Promise.all(unitUpdates);
 };
 
 module.exports = handlerColorAbsolute;

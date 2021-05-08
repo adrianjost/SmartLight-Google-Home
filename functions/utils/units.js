@@ -9,6 +9,7 @@ const getUnitsByUserid = async (userid) => {
 	const unitSnapchots = await db
 		.collection("units")
 		.where("created_by", "==", userid)
+		.where("type", "==", "LAMP") // TODO: remove filter when groups are implemented
 		.get();
 	console.log("ℹ GOT SNAPSHOTS", unitSnapchots);
 	const units = [];

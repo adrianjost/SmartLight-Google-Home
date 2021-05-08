@@ -76,6 +76,7 @@ const executeCommand = async (commandObj, userid) => {
 		console.info("ℹ COMMAND PARAMS", command, devices, params);
 		// eslint-disable-next-line no-await-in-loop
 		const res = await commandHandler[command](devices, params, userid);
+		console.info("ℹ COMMAND HANDLED", res);
 		if (Array.isArray(res)) {
 			out.push(...res);
 		} else {

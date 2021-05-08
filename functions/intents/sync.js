@@ -93,6 +93,7 @@ const getLampInfo = (unit) => {
 			"action.devices.traits.Brightness",
 			// "action.devices.traits.LightEffects", // Gradients
 			"action.devices.traits.ColorSetting",
+			// "action.devices.traits.ColorTemperature"
 		];
 	};
 	return {
@@ -138,11 +139,9 @@ const sync = async (req) => {
 	await registerUser(req.auth.userid);
 	const units = await getUnitsByUserid(req.auth.userid);
 	console.info("ℹ UNITS:", JSON.stringify(units));
-	// TODO [#11]: use this implementation instead of the mock
-	// TODO [#12]: remove the filter when groups are implemented
 	return {
 		agentUserId: req.auth.userid,
-		devices: units.map(getDeviceInfo).filter((a) => a), // TODO: remove this filter when groups are implemented
+		devices: units.map(getDeviceInfo),
 	};
 };
 
