@@ -6,7 +6,7 @@ const generateNewConsole = (
 	const logLevelIndex = logLevels.findIndex((l) => l === logLevel) + 1;
 	return logLevels.reduce((logger, level, index) => {
 		// Do not use [...args] because otherwise strings would be split and displayed with spaced between each charachter
-		logger[level] = function() {
+		logger[level] = function () {
 			if (logLevelIndex > index) {
 				oldConsole.log(...modifier(...arguments));
 			}

@@ -9,12 +9,9 @@ const registrationCache = {};
 const registerUser = async (userid) => {
 	console.log("ℹ REGISTER USER", userid);
 	registrationCache[userid] = true;
-	await db
-		.collection("users")
-		.doc(userid)
-		.update({
-			google_home_graph: true,
-		});
+	await db.collection("users").doc(userid).update({
+		google_home_graph: true,
+	});
 	console.log("ℹ REGISTERED USER", userid);
 };
 
@@ -25,12 +22,9 @@ const registerUser = async (userid) => {
 const disconnectUser = async (userid) => {
 	console.log("ℹ DISCONNECT USER", userid);
 	registrationCache[userid] = false;
-	await db
-		.collection("users")
-		.doc(userid)
-		.update({
-			google_home_graph: false,
-		});
+	await db.collection("users").doc(userid).update({
+		google_home_graph: false,
+	});
 	console.log("ℹ DISCONNECTED USER", userid);
 };
 
@@ -49,10 +43,7 @@ const isUserRegistered = async (userid) => {
 		return cachedStatus;
 	}
 	console.log("ℹ FETCH USER", userid);
-	const userSnapshot = await db
-		.collection("users")
-		.doc(userid)
-		.get();
+	const userSnapshot = await db.collection("users").doc(userid).get();
 	if (!userSnapshot.exists) {
 		throw new Error("user does not exist");
 	}
