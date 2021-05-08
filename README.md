@@ -1,11 +1,11 @@
 # SmartLight Firebase Functions
 
-[![Build Status](https://travis-ci.com/adrianjost/SmartLight-Google-Home.svg?branch=master)](https://travis-ci.com/adrianjost/SmartLight-Google-Home) [![Greenkeeper badge](https://badges.greenkeeper.io/adrianjost/SmartLight-Google-Home.svg)](https://greenkeeper.io/)
+![CI](https://github.com/adrianjost/SmartLight-Google-Home/workflows/CI/badge.svg) [![Dependency Status](https://david-dm.org/adrianjost/SmartLight-Google-Home.svg)](https://david-dm.org/adrianjost/SmartLight-Google-Home) [![Dependency Status](https://david-dm.org/adrianjost/SmartLight-Google-Home/dev-status.svg)](https://david-dm.org/adrianjost/SmartLight-Google-Home?type=dev)
 
 ## Setup
 
-1. install Yarn
-1. run `yarn install`
+1. install npm
+1. run `npm install`
 1. set credentials: `set GOOGLE_APPLICATION_CREDENTIALS=../path/to.json` ([more infos](https://firebase.google.com/docs/admin/setup#initialize-sdk))
 1. create config `.runtimeconfig.json` with keys `crypto.auth_token_secret_key_32` and `project.api_key`
 1. Set firebase env variables
@@ -13,7 +13,7 @@
       - you can use `console.log(Buffer.from(JSON.stringify(<JSON OBJECT>)).toString('base64'));` to create it
    1. firebase functions:config:set crypto.auth_token_secret_key_32=<YOUR_GENERATED_RANDOM_32_CHAR_STRING>
    1. firebase functions:config:set project.api_key=<YOUR_WEB_API_KEY>
-1. Start developing (`yarn serve`)
+1. Start developing (`npm run serve`)
 
 make sure you have a user with the permission `Firebase Admin SDK-Administrator-Service-Agent` created [here](https://console.cloud.google.com/iam-admin/iam) and the functions are executed by this account.
 
