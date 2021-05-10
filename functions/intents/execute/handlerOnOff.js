@@ -10,19 +10,19 @@ const handlerOnOff = async (devices, params, userid) => {
 	const units = await getUnitsByIds(deviceIds, userid);
 	unitUpdates = units.map(async (unit) => {
 		try {
-			// Do not overwrite units that are already on.
 			const isOn = Boolean(
 				unit.state.color !== "#000000" || unit.state.gradient
-			);
+				);
+				// Do not overwrite units that are already on.
 			if (shouldBeOn === isOn) {
 				return {
 					ids: [unit.id],
 					status: "ERROR",
-					errorCode: "alreadyOn",
+					errorCode: isOn ? "alreadyOn" : "alreadyOff",
 				};
 			}
 			await setUnitState(unit, {
-				color: shouldBeOn ? "#ffffff" : "#000000",
+				color: shouldBeOn ? "#ffffff" : "#000000", // TODO don't set an on color - will be set by the hub once executed
 				type: shouldBeOn ? "AUTO" : "OFF",
 			});
 			return {

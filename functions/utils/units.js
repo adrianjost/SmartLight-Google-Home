@@ -1,5 +1,9 @@
 const { db } = require("./firebase");
-const { hexToSpectrumRgb, getLuminance } = require("../utils/color");
+const {
+	hexToSpectrumRgb,
+	getLuminance,
+	hexToTemperature,
+} = require("../utils/color");
 /**
  * @param  {string} userid
  * @returns {[Object]} All unit objects the user has
@@ -52,17 +56,26 @@ const getUnitById = async (unitid, userid) => {
  * @param  {Object} unit The Unit like it is stored in the DB
  * @return A State Object that the Home API understands
  */
-const getUnitState = ({ state }) => {
+const getUnitState = (unit) => {
 	// TODO [#6]: implement query responses for other traits
+	const { state } = unit;
 	const color = String(state.color || "#000000");
+	console.log(`ℹ getUnitState: ${unit.id} ${state.color} ${color}`)
 	const isOn = Boolean(state.gradient || state.color !== "#000000");
-	const spectrumRgb = hexToSpectrumRgb(color || "#000000");
-	const brightness = Math.round(getLuminance(color || "#000000"));
+	const spectrumRgb = hexToSpectrumRgb(color);
+	const brightness = Math.round(getLuminance(color));
+	const temperatureK = hexToTemperature(
+		color,
+		unit.tempMin || 2700,
+		unit.tempMax || 6000
+	);
+
 	return {
 		on: isOn,
 		online: true,
-		spectrumRgb,
 		brightness,
+		temperatureK,
+		spectrumRgb,
 	};
 };
 

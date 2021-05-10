@@ -86,16 +86,16 @@ const getGroupInfo = (unit) => {
 
 const getLampInfo = (unit) => {
 	const getTraits = (lamptype) => {
-		// TODO [#2]: differentiate between RGB and WWCW lamps, currenlty only RGB is implemented
+		// TODO [#2]: differentiate between RGB and WWCW lamps, currently only RGB is implemented
 		// TODO [#3]: implement more traits https://developers.google.com/assistant/smarthome/traits
 		return [
 			"action.devices.traits.OnOff",
 			"action.devices.traits.Brightness",
 			// "action.devices.traits.LightEffects", // Gradients
 			"action.devices.traits.ColorSetting",
-			// "action.devices.traits.ColorTemperature"
 		];
 	};
+
 	return {
 		id: unit.id,
 		type: "action.devices.types.LIGHT",
@@ -106,11 +106,11 @@ const getLampInfo = (unit) => {
 			nicknames: unit.tags || [],
 		},
 		attributes: {
-			// TODO [#4]: implement colorTemperatureRange for WWCW lamps https://developers.google.com/assistant/smarthome/traits/colorsetting
 			colorModel: "rgb",
-			commandOnlyOnOff: true,
-			commandOnlyBrightness: true,
-			commandOnlyColorSetting: true,
+			colorTemperatureRange: {
+				temperatureMinK: unit.tempMin || 2700,
+				temperatureMaxK: unit.tempMax || 6000,
+			}
 		},
 		willReportState: true,
 		deviceInfo: {
