@@ -13,8 +13,8 @@ const {
 } = require("@adrianjost/oauth2-firebase");
 
 Configuration.init({
-	crypto_auth_token_secret_key_32: functions.config().crypto
-		.auth_token_secret_key_32,
+	crypto_auth_token_secret_key_32:
+		functions.config().crypto.auth_token_secret_key_32,
 	project_api_key: functions.config().project.api_key,
 });
 
