@@ -22,7 +22,7 @@ const handlerOnOff = async (devices, params, userid) => {
 				};
 			}
 			await setUnitState(unit, {
-				color: shouldBeOn ? "#ffffff" : "#000000", // TODO don't set an on color - will be set by the hub once executed
+				color: shouldBeOn ? unit.color : "#000000", // don't set an on color - will be overwritten by the hub once executed
 				type: shouldBeOn ? "AUTO" : "OFF",
 			});
 			return {

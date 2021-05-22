@@ -61,7 +61,7 @@ const getUnitState = (unit) => {
 	const { state } = unit;
 	const color = String(state.color || "#000000");
 	console.log(`ℹ getUnitState: ${unit.id} ${state.color} ${color}`)
-	const isOn = Boolean(state.gradient || state.color !== "#000000");
+	const isOn = Boolean(state.type !== "OFF" || state.gradient || state.color !== "#000000");
 	const spectrumRgb = hexToSpectrumRgb(color);
 	const brightness = Math.round(getLuminance(color));
 	const temperatureK = hexToTemperature(
