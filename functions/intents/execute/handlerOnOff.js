@@ -21,13 +21,15 @@ const handlerOnOff = async (devices, params, userid) => {
 					errorCode: isOn ? "alreadyOn" : "alreadyOff",
 				};
 			}
-			const newState = shouldBeOn ? {
-				// don't set an on color - will be overwritten by the hub once executed
-				type: "AUTO"
-			} : {
-				color: "#000000",
-				type: "OFF"
-			}
+			const newState = shouldBeOn
+				? {
+						// don't set an on color - will be overwritten by the hub once executed
+						type: "AUTO",
+				  }
+				: {
+						color: "#000000",
+						type: "OFF",
+				  };
 			await setUnitState(unit, newState);
 			return {
 				ids: [unit.id],
