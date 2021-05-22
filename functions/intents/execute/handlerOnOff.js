@@ -12,8 +12,8 @@ const handlerOnOff = async (devices, params, userid) => {
 		try {
 			const isOn = Boolean(
 				unit.state.color !== "#000000" || unit.state.gradient
-				);
-				// Do not overwrite units that are already on.
+			);
+			// Do not overwrite units that are already on.
 			if (shouldBeOn === isOn) {
 				return {
 					ids: [unit.id],

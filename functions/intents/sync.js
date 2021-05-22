@@ -110,7 +110,7 @@ const getLampInfo = (unit) => {
 			colorTemperatureRange: {
 				temperatureMinK: unit.tempMin || 2700,
 				temperatureMaxK: unit.tempMax || 6000,
-			}
+			},
 		},
 		willReportState: true,
 		deviceInfo: {
