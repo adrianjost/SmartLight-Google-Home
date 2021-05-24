@@ -34,7 +34,7 @@
 		"object.fromentries": "^2.0.2"
 	},
 	"devDependencies": {
-		"concurrently": "^6.1.0",
+		"concurrently": "^6.2.0",
 		"eslint": "^7.27.0",
 		"eslint-plugin-promise": "^5.1.0",
 		"firebase-tools": "^9.11.0",
