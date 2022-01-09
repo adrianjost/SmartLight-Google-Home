@@ -77,7 +77,11 @@ const temperatureToHex = (currentColor, temp, minK, maxK) => {
 	const hue = (temp - minK) / dTemp;
 	const ww = hue < 0.5 ? 1 : 2 - 2 * hue;
 	const cw = hue < 0.5 ? hue * 2 : 1;
-	return rgb2hex({ r: Math.round(ww * brightness), g: 0, b: Math.round(cw * brightness) });
+	return rgb2hex({
+		r: Math.round(ww * brightness),
+		g: 0,
+		b: Math.round(cw * brightness),
+	});
 };
 
 module.exports = {
