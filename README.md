@@ -55,7 +55,7 @@ await userRef.set(client, { merge: true });
 const userRef = db.collection("clients").doc("<OAuth Client ID>");
 const client = {
 	name: "some scope name", // will be used as an identifier when requesting access to resources (the sender defines and sends scope access requests)
-	description: "explenation for the user for which data access will be granted",
+	description: "explanation for the user for which data access will be granted",
 };
 await userRef.set(client, { merge: true });
 ```

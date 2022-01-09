@@ -2,8 +2,8 @@ const {
 	AbstractProtectedResourceEndpoint,
 } = require("@adrianjost/oauth2-firebase");
 
-// const { getUnitsByUserid } = require("./utils/units");
-// getUnitsByUserid("IcAd2hRhBoRs5WTORWTTCSaRSvy2")
+// const { getUnitsByUserID } = require("./utils/units");
+// getUnitsByUserID("...")
 // 	.then((units) => {
 // 		console.log("GOT UNITS", units);
 // 	})
@@ -11,7 +11,7 @@ const {
 // 		console.error("ERROR", error);
 // 	});
 
-class UserinfoEndpoint extends AbstractProtectedResourceEndpoint {
+class UserInfoEndpoint extends AbstractProtectedResourceEndpoint {
 	async handleRequest(req, endpointInfo) {
 		console.info("ℹ ACCESS GRANTED - HANDLE REQUEST");
 		console.debug(
@@ -25,7 +25,7 @@ class UserinfoEndpoint extends AbstractProtectedResourceEndpoint {
 			"action.devices.EXECUTE": require("./intents/execute"),
 			"action.devices.DISCONNECT": require("./intents/disconnect"),
 		};
-		req.auth = { userid: endpointInfo.userId };
+		req.auth = { userID: endpointInfo.userId };
 		const intent = req.body.inputs[0].intent;
 		let payload;
 		try {
@@ -49,4 +49,4 @@ class UserinfoEndpoint extends AbstractProtectedResourceEndpoint {
 	}
 }
 
-module.exports = new UserinfoEndpoint().endpoint;
+module.exports = new UserInfoEndpoint().endpoint;

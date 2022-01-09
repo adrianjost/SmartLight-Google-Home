@@ -16,17 +16,17 @@ const app = smarthome({
 	debug: true,
 });
 
-const requestSync = async (userid) => {
+const requestSync = async (userID) => {
 	return app
-		.requestSync(userid)
+		.requestSync(userID)
 		.then((resp) => {
-			console.log("ℹ Requested Sync", userid, resp);
+			console.log("ℹ Requested Sync", userID, resp);
 			return resp;
 		})
 		.catch(console.error);
 };
 
-const reportState = async (userid, unit) => {
+const reportState = async (userID, unit) => {
 	console.log("ℹ GENERATE UNIT STATE", unit);
 	const unitState = getUnitState(unit);
 	// convert spectrumRGB name according to https://github.com/actions-on-google/smart-home-nodejs/issues/257#issuecomment-461208257
@@ -48,11 +48,11 @@ const reportState = async (userid, unit) => {
 	return app
 		.reportState({
 			requestId: Math.random().toString().slice(3),
-			agentUserId: userid,
+			agentUserId: userID,
 			payload,
 		})
 		.then((resp) => {
-			console.log("ℹ Reported State", userid, resp);
+			console.log("ℹ Reported State", userID, resp);
 			return resp;
 		})
 		.catch(console.error);

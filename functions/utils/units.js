@@ -5,19 +5,19 @@ const {
 	hexToTemperature,
 } = require("../utils/color");
 /**
- * @param  {string} userid
+ * @param  {string} userID
  * @returns {[Object]} All unit objects the user has
  */
-const getUnitsByUserid = async (userid) => {
-	console.log("ℹ FETCH UNITS BY USERID", userid);
-	const unitSnapchots = await db
+const getUnitsByUserID = async (userID) => {
+	console.log("ℹ FETCH UNITS BY USER-ID", userID);
+	const unitSnapshots = await db
 		.collection("units")
-		.where("created_by", "==", userid)
+		.where("created_by", "==", userID)
 		.where("type", "==", "LAMP") // TODO: remove filter when groups are implemented
 		.get();
-	console.log("ℹ GOT SNAPSHOTS", unitSnapchots);
+	console.log("ℹ GOT SNAPSHOTS", unitSnapshots);
 	const units = [];
-	unitSnapchots.forEach((doc) => {
+	unitSnapshots.forEach((doc) => {
 		units.push(doc.data());
 	});
 	console.log("ℹ CONVERTED SNAPSHOTS TO DATA", units);
@@ -25,27 +25,27 @@ const getUnitsByUserid = async (userid) => {
 };
 
 /**
- * Throws an error if one unitid couldn't be fetched
+ * Throws an error if one unitID couldn't be fetched
  * @param  {[string]} unitIds ids of the units to fetch
- * @param  {string} userid of requester
+ * @param  {string} userID of requester
  * @returns {[Object]} All unit objects requested
  */
-const getUnitsByIds = async (unitIds, userid) => {
-	return Promise.all(unitIds.map((unitid) => getUnitById(unitid, userid)));
+const getUnitsByIds = async (unitIds, userID) => {
+	return Promise.all(unitIds.map((unitID) => getUnitById(unitID, userID)));
 };
 
-const getUnitById = async (unitid, userid) => {
-	if (!userid) {
-		throw new Error("param userid is missing");
+const getUnitById = async (unitID, userID) => {
+	if (!userID) {
+		throw new Error("param userID is missing");
 	}
-	const unitSnapchots = await db.collection("units").doc(unitid).get();
-	if (!unitSnapchots.exists) {
+	const unitSnapshots = await db.collection("units").doc(unitID).get();
+	if (!unitSnapshots.exists) {
 		throw new Error("unit does not exists");
 	}
-	const unit = unitSnapchots.data();
+	const unit = unitSnapshots.data();
 	/*
-	if (unit.created_by !== userid) {
-		console.error("access denied", unit.created_by, userid)
+	if (unit.created_by !== userID) {
+		console.error("access denied", unit.created_by, userID)
 		throw new Error("access denied");
 	}*/
 	return unit;
@@ -96,7 +96,7 @@ const setUnitState = async (unit, newState) => {
 };
 
 module.exports = {
-	getUnitsByUserid,
+	getUnitsByUserID,
 	getUnitsByIds,
 	getUnitById,
 	getUnitState,
