@@ -64,7 +64,9 @@ const getUnitState = (unit) => {
 	const color = String(state.color || "#000000");
 	logger.log(`ℹ getUnitState: ${unit.id} ${state.color} ${color}`);
 	const isOn = Boolean(
-		state.type !== "OFF" || state.gradient || state.color !== "#000000"
+		(state.type !== undefined && state.type !== "OFF") ||
+			state.gradient !== undefined ||
+			(state.color !== undefined && state.color !== "#000000")
 	);
 	const spectrumRgb = hexToSpectrumRgb(color);
 	const brightness = Math.round(getLuminance(color));
