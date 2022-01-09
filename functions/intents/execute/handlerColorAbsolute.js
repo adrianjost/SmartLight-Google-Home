@@ -15,8 +15,8 @@ const handlerColorAbsolute = async (devices, params, userID) => {
 			newColor = temperatureToHex(
 				unit.state.color,
 				params.color.temperature,
-				unit.min,
-				unit.max
+				unit.tempMin,
+				unit.tempMax
 			);
 		} else {
 			newColor = spectrumRgbToHex(params.color.spectrumRGB);
