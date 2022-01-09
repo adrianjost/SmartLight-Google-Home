@@ -101,9 +101,8 @@ const getLampInfo = (unit) => {
 		type: "action.devices.types.LIGHT",
 		traits: getTraits(unit.lamptype),
 		name: {
-			defaultNames: [],
+			defaultNames: [unit.id],
 			name: unit.name,
-			nicknames: unit.tags || [],
 		},
 		attributes: {
 			colorModel: "rgb",
@@ -111,6 +110,7 @@ const getLampInfo = (unit) => {
 				temperatureMinK: unit.tempMin || 2700,
 				temperatureMaxK: unit.tempMax || 6000,
 			},
+			nicknames: [unit.name, ...(unit.tags || [])],
 		},
 		willReportState: true,
 		deviceInfo: {
