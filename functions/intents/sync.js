@@ -85,8 +85,7 @@ const getGroupInfo = (/* unit */) => {
 };
 
 const getLampInfo = (unit) => {
-	const getTraits = (/* lamptype */) => {
-		// TODO [#2]: differentiate between RGB and WWCW lamps, currently only RGB is implemented
+	const getTraits = () => {
 		// TODO [#3]: implement more traits https://developers.google.com/assistant/smarthome/traits
 		return [
 			"action.devices.traits.OnOff",
@@ -96,22 +95,33 @@ const getLampInfo = (unit) => {
 		];
 	};
 
+	const getAttributes = () => {
+		const attributes = {};
+		if(unit.lamptype === "RGB"){
+			attributes.colorModel ="rgb";
+		}
+		if(unit.tempMin && unit.tempMax) {
+			attributes.colorTemperatureRange = {
+				temperatureMinK: unit.tempMin,
+				temperatureMaxK: unit.tempMax,
+			}
+		}
+		if(Object.keys(attributes).length === 0) {
+			throw new Error("unit is missing attributes");
+		}
+		return attributes
+	}
+
 	return {
 		id: unit.id,
 		type: "action.devices.types.LIGHT",
-		traits: getTraits(unit.lamptype),
+		traits: getTraits(),
 		name: {
 			defaultNames: [unit.id],
 			name: unit.name,
-		},
-		attributes: {
-			colorModel: "rgb",
-			colorTemperatureRange: {
-				temperatureMinK: unit.tempMin || 2700,
-				temperatureMaxK: unit.tempMax || 6000,
-			},
 			nicknames: [unit.name, ...(unit.tags || [])],
 		},
+		attributes: getAttributes(),
 		willReportState: true,
 		deviceInfo: {
 			manufacturer: "DIY",
