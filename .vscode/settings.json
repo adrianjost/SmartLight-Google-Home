@@ -5,5 +5,8 @@
     "lamptype",
     "runtimeconfig",
     "smarthome"
-  ]
+  ],
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
