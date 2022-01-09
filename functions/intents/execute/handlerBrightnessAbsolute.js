@@ -4,6 +4,7 @@ const {
 	getUnitState,
 } = require("../../utils/units");
 const { setLuminance } = require("../../utils/color");
+const logger = require("../../utils/logger");
 
 const handlerBrightnessAbsolute = async (devices, params, userID) => {
 	const deviceIds = devices.map((d) => d.id);
@@ -23,7 +24,7 @@ const handlerBrightnessAbsolute = async (devices, params, userID) => {
 				states: getUnitState(unit),
 			};
 		} catch (error) {
-			console.error(error);
+			logger.error(error);
 			return {
 				ids: [unit.id],
 				status: "ERROR",

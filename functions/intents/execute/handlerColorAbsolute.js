@@ -4,6 +4,7 @@ const {
 	setUnitState,
 } = require("../../utils/units");
 const { spectrumRgbToHex, temperatureToHex } = require("../../utils/color");
+const logger = require("../../utils/logger");
 
 const handlerColorAbsolute = async (devices, params, userID) => {
 	const deviceIds = devices.map((d) => d.id);
@@ -35,7 +36,7 @@ const handlerColorAbsolute = async (devices, params, userID) => {
 				states: getUnitState(unit),
 			};
 		} catch (error) {
-			console.error(error);
+			logger.error(error);
 			return {
 				ids: [unit.id],
 				status: "ERROR",

@@ -4,23 +4,25 @@ const {
 	getLuminance,
 	hexToTemperature,
 } = require("../utils/color");
+const logger = require("./logger");
+
 /**
  * @param  {string} userID
  * @returns {[Object]} All unit objects the user has
  */
 const getUnitsByUserID = async (userID) => {
-	console.log("ℹ FETCH UNITS BY USER-ID", userID);
+	logger.log("ℹ FETCH UNITS BY USER-ID", userID);
 	const unitSnapshots = await db
 		.collection("units")
 		.where("created_by", "==", userID)
 		.where("type", "==", "LAMP") // TODO: remove filter when groups are implemented
 		.get();
-	console.log("ℹ GOT SNAPSHOTS", unitSnapshots);
+	logger.log("ℹ GOT SNAPSHOTS", unitSnapshots);
 	const units = [];
 	unitSnapshots.forEach((doc) => {
 		units.push(doc.data());
 	});
-	console.log("ℹ CONVERTED SNAPSHOTS TO DATA", units);
+	logger.log("ℹ CONVERTED SNAPSHOTS TO DATA", units);
 	return units;
 };
 
@@ -45,7 +47,7 @@ const getUnitById = async (unitID, userID) => {
 	const unit = unitSnapshots.data();
 	/*
 	if (unit.created_by !== userID) {
-		console.error("access denied", unit.created_by, userID)
+		logger.error("access denied", unit.created_by, userID)
 		throw new Error("access denied");
 	}*/
 	return unit;
@@ -60,7 +62,7 @@ const getUnitState = (unit) => {
 	// TODO [#6]: implement query responses for other traits
 	const { state } = unit;
 	const color = String(state.color || "#000000");
-	console.log(`ℹ getUnitState: ${unit.id} ${state.color} ${color}`);
+	logger.log(`ℹ getUnitState: ${unit.id} ${state.color} ${color}`);
 	const isOn = Boolean(
 		state.type !== "OFF" || state.gradient || state.color !== "#000000"
 	);

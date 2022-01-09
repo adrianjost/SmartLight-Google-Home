@@ -1,4 +1,5 @@
 const { db } = require("./firebase");
+const logger = require("./logger");
 
 const registrationCache = {};
 
@@ -7,12 +8,12 @@ const registrationCache = {};
  * @return {Promise}
  */
 const registerUser = async (userID) => {
-	console.log("ℹ REGISTER USER", userID);
+	logger.log("ℹ REGISTER USER", userID);
 	registrationCache[userID] = true;
 	await db.collection("users").doc(userID).update({
 		google_home_graph: true,
 	});
-	console.log("ℹ REGISTERED USER", userID);
+	logger.log("ℹ REGISTERED USER", userID);
 };
 
 /**
@@ -20,12 +21,12 @@ const registerUser = async (userID) => {
  * @return {Promise}
  */
 const disconnectUser = async (userID) => {
-	console.log("ℹ DISCONNECT USER", userID);
+	logger.log("ℹ DISCONNECT USER", userID);
 	registrationCache[userID] = false;
 	await db.collection("users").doc(userID).update({
 		google_home_graph: false,
 	});
-	console.log("ℹ DISCONNECTED USER", userID);
+	logger.log("ℹ DISCONNECTED USER", userID);
 };
 
 /**
@@ -35,21 +36,17 @@ const disconnectUser = async (userID) => {
 const isUserRegistered = async (userID) => {
 	const cachedStatus = registrationCache[userID];
 	if (cachedStatus) {
-		console.log(
-			"ℹ USER REGISTRATION STATUS (FROM CACHE)",
-			userID,
-			cachedStatus
-		);
+		logger.log("ℹ USER REGISTRATION STATUS (FROM CACHE)", userID, cachedStatus);
 		return cachedStatus;
 	}
-	console.log("ℹ FETCH USER", userID);
+	logger.log("ℹ FETCH USER", userID);
 	const userSnapshot = await db.collection("users").doc(userID).get();
 	if (!userSnapshot.exists) {
 		throw new Error("user does not exist");
 	}
 	const status = userSnapshot.get("google_home_graph");
 	registrationCache[userID] = status;
-	console.log("ℹ GOT REGISTRATION STATUS", userID, status);
+	logger.log("ℹ GOT REGISTRATION STATUS", userID, status);
 	return status;
 };
 

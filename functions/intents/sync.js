@@ -1,6 +1,7 @@
 const pkg = require("../../package.json");
 const { getUnitsByUserID } = require("../utils/units");
 const { registerUser } = require("../utils/user");
+const logger = require("../utils/logger");
 
 /*
 req.body:
@@ -97,20 +98,20 @@ const getLampInfo = (unit) => {
 
 	const getAttributes = () => {
 		const attributes = {};
-		if(unit.lamptype === "RGB"){
-			attributes.colorModel ="rgb";
+		if (unit.lamptype === "RGB") {
+			attributes.colorModel = "rgb";
 		}
-		if(unit.tempMin && unit.tempMax) {
+		if (unit.tempMin && unit.tempMax) {
 			attributes.colorTemperatureRange = {
 				temperatureMinK: unit.tempMin,
 				temperatureMaxK: unit.tempMax,
-			}
+			};
 		}
-		if(Object.keys(attributes).length === 0) {
+		if (Object.keys(attributes).length === 0) {
 			throw new Error("unit is missing attributes");
 		}
-		return attributes
-	}
+		return attributes;
+	};
 
 	return {
 		id: unit.id,
@@ -145,10 +146,10 @@ const getDeviceInfo = (unit) => {
 };
 
 const sync = async (req) => {
-	console.log("ℹ EXECUTE SYNC", JSON.stringify(req.body));
+	logger.log("ℹ EXECUTE SYNC", JSON.stringify(req.body));
 	await registerUser(req.auth.userID);
 	const units = await getUnitsByUserID(req.auth.userID);
-	console.log("ℹ UNITS:", JSON.stringify(units));
+	logger.log("ℹ UNITS:", JSON.stringify(units));
 	return {
 		agentUserId: req.auth.userID,
 		devices: units.map(getDeviceInfo),

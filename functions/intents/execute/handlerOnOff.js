@@ -3,6 +3,7 @@ const {
 	getUnitsByIds,
 	getUnitState,
 } = require("../../utils/units");
+const logger = require("../../utils/logger");
 
 const handlerOnOff = async (devices, params, userID) => {
 	const shouldBeOn = params.on;
@@ -37,7 +38,7 @@ const handlerOnOff = async (devices, params, userID) => {
 				states: getUnitState(unit),
 			};
 		} catch (error) {
-			console.error(error);
+			logger.error(error);
 			return {
 				ids: [unit.id],
 				status: "ERROR",

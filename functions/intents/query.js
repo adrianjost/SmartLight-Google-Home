@@ -1,5 +1,6 @@
 const fromEntries = require("object.fromentries");
 const { getUnitsByIds, getUnitState } = require("../utils/units");
+const logger = require("../utils/logger");
 
 if (!Object.fromEntries) {
 	fromEntries.shim();
@@ -37,13 +38,13 @@ const mapUnitToState = (unit) => {
 };
 
 const query = async (req) => {
-	console.log("ℹ EXECUTE QUERY", JSON.stringify(req.body));
+	logger.log("ℹ EXECUTE QUERY", JSON.stringify(req.body));
 	const unitIds = req.body.inputs[0].payload.devices.map((d) => d.id);
-	console.log("ℹ REQUESTED UNIT_IDs:", JSON.stringify(unitIds));
+	logger.log("ℹ REQUESTED UNIT_IDs:", JSON.stringify(unitIds));
 	const units = await getUnitsByIds(unitIds, req.auth.userID);
-	console.log("ℹ UNITS:", units);
+	logger.log("ℹ UNITS:", units);
 	const devices = Object.fromEntries(units.map(mapUnitToState));
-	console.log("ℹ DEVICES", devices);
+	logger.log("ℹ DEVICES", devices);
 	return {
 		agentUserId: req.auth.userID,
 		devices,

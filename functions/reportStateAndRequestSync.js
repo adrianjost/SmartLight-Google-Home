@@ -2,13 +2,14 @@ const { smarthome } = require("actions-on-google");
 const functions = require("firebase-functions");
 const { getUnitState } = require("./utils/units");
 const { isUserRegistered } = require("./utils/user");
+const logger = require("./utils/logger");
 
 const jwt = JSON.parse(
 	Buffer.from(functions.config().crypto.jwt, "base64").toString("ascii")
 );
 if (!jwt) {
-	console.warn("Service account key is not found");
-	console.warn("Report state and Request sync will be unavailable");
+	logger.warn("Service account key is not found");
+	logger.warn("Report state and Request sync will be unavailable");
 }
 
 const app = smarthome({
@@ -20,14 +21,14 @@ const requestSync = async (userID) => {
 	return app
 		.requestSync(userID)
 		.then((resp) => {
-			console.log("ℹ Requested Sync", userID, resp);
+			logger.log("ℹ Requested Sync", userID, resp);
 			return resp;
 		})
-		.catch(console.error);
+		.catch(logger.error);
 };
 
 const reportState = async (userID, unit) => {
-	console.log("ℹ GENERATE UNIT STATE", unit);
+	logger.log("ℹ GENERATE UNIT STATE", unit);
 	const unitState = getUnitState(unit);
 	// convert spectrumRGB name according to https://github.com/actions-on-google/smart-home-nodejs/issues/257#issuecomment-461208257
 	delete unitState["online"];
@@ -44,7 +45,7 @@ const reportState = async (userID, unit) => {
 			},
 		},
 	};
-	console.log("ℹ GENERATED PAYLOAD", payload);
+	logger.log("ℹ GENERATED PAYLOAD", payload);
 	return app
 		.reportState({
 			requestId: Math.random().toString().slice(3),
@@ -52,10 +53,10 @@ const reportState = async (userID, unit) => {
 			payload,
 		})
 		.then((resp) => {
-			console.log("ℹ Reported State", userID, resp);
+			logger.log("ℹ Reported State", userID, resp);
 			return resp;
 		})
-		.catch(console.error);
+		.catch(logger.error);
 };
 
 async function handleUnitChange(change) {
@@ -64,7 +65,7 @@ async function handleUnitChange(change) {
 
 	const handleRequest = await isUserRegistered(unitAfter.created_by);
 	if (!handleRequest) {
-		console.log(
+		logger.log(
 			"ℹ user is not connected to API => DO NOT PUSH EVENTS",
 			unitAfter.created_by
 		);
@@ -74,12 +75,12 @@ async function handleUnitChange(change) {
 
 	if (JSON.stringify(unitBefore.state) !== JSON.stringify(unitAfter.state)) {
 		// Unit State has changed
-		console.log("ℹ report state...", unitAfter.created_by);
+		logger.log("ℹ report state...", unitAfter.created_by);
 		await reportState(unitAfter.created_by, unitAfter);
 		return;
 	}
 	// Unit Meta Data has changed
-	console.log("ℹ request sync...", unitAfter.created_by);
+	logger.log("ℹ request sync...", unitAfter.created_by);
 	await requestSync(unitAfter.created_by);
 	return;
 }

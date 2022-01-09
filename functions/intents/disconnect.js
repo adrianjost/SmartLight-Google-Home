@@ -1,7 +1,8 @@
 const { disconnectUser } = require("../utils/user");
+const logger = require("../utils/logger");
 
 const disconnect = async (req) => {
-	console.log("ℹ EXECUTE DISCONNECT");
+	logger.log("ℹ EXECUTE DISCONNECT");
 	await disconnectUser(req.auth.userID);
 	return {
 		agentUserId: req.auth.userID,
