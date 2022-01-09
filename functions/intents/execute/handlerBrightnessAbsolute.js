@@ -5,9 +5,9 @@ const {
 } = require("../../utils/units");
 const { setLuminance } = require("../../utils/color");
 
-const handlerBrightnessAbsolute = async (devices, params, userid) => {
+const handlerBrightnessAbsolute = async (devices, params, userID) => {
 	const deviceIds = devices.map((d) => d.id);
-	const units = await getUnitsByIds(deviceIds, userid);
+	const units = await getUnitsByIds(deviceIds, userID);
 	const unitUpdates = units.map(async (unit) => {
 		try {
 			const currentColor = unit.state.color || "#000000";

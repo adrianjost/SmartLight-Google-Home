@@ -64,7 +64,7 @@ const commandHandler = {
 	"action.devices.commands.BrightnessAbsolute": require("./handlerBrightnessAbsolute"),
 };
 
-const executeCommand = async (commandObj, userid) => {
+const executeCommand = async (commandObj, userID) => {
 	console.log("ℹ COMMAND OBJECT", commandObj);
 	const devices = commandObj.devices;
 	let out = [];
@@ -75,7 +75,7 @@ const executeCommand = async (commandObj, userid) => {
 		const params = execution.params;
 		console.log("ℹ COMMAND PARAMS", command, devices, params);
 		// eslint-disable-next-line no-await-in-loop
-		const res = await commandHandler[command](devices, params, userid);
+		const res = await commandHandler[command](devices, params, userID);
 		console.log("ℹ COMMAND HANDLED", res);
 		if (Array.isArray(res)) {
 			out.push(...res);
@@ -92,11 +92,11 @@ const execute = async (req) => {
 	console.log("ℹ REQUESTED COMMANDS:", commandRequests);
 	const commands = (
 		await Promise.all(
-			commandRequests.map((command) => executeCommand(command, req.auth.userid))
+			commandRequests.map((command) => executeCommand(command, req.auth.userID))
 		)
 	).flat(1);
 	return {
-		agentUserId: req.auth.userid,
+		agentUserId: req.auth.userID,
 		commands,
 	};
 };

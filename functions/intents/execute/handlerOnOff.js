@@ -4,10 +4,10 @@ const {
 	getUnitState,
 } = require("../../utils/units");
 
-const handlerOnOff = async (devices, params, userid) => {
+const handlerOnOff = async (devices, params, userID) => {
 	const shouldBeOn = params.on;
 	const deviceIds = devices.map((d) => d.id);
-	const units = await getUnitsByIds(deviceIds, userid);
+	const units = await getUnitsByIds(deviceIds, userID);
 	const unitUpdates = units.map(async (unit) => {
 		try {
 			const isOn = Boolean(
