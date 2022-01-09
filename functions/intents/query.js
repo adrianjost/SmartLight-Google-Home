@@ -37,13 +37,13 @@ const mapUnitToState = (unit) => {
 };
 
 const query = async (req) => {
-	console.info("ℹ EXECUTE QUERY", JSON.stringify(req.body));
+	console.log("ℹ EXECUTE QUERY", JSON.stringify(req.body));
 	const unitIds = req.body.inputs[0].payload.devices.map((d) => d.id);
-	console.info("ℹ REQUESTED UNIT_IDs:", JSON.stringify(unitIds));
 	const units = await getUnitsByIds(unitIds, req.auth.userid);
-	console.info("ℹ UNITS:", units);
+	console.log("ℹ REQUESTED UNIT_IDs:", JSON.stringify(unitIds));
+	console.log("ℹ UNITS:", units);
 	const devices = Object.fromEntries(units.map(mapUnitToState));
-	console.info("ℹ DEVICES", devices);
+	console.log("ℹ DEVICES", devices);
 	return {
 		agentUserId: req.auth.userid,
 		devices,

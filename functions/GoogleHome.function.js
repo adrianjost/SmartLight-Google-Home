@@ -13,7 +13,7 @@ const {
 
 class UserInfoEndpoint extends AbstractProtectedResourceEndpoint {
 	async handleRequest(req, endpointInfo) {
-		console.info("ℹ ACCESS GRANTED - HANDLE REQUEST");
+		console.log("ℹ ACCESS GRANTED - HANDLE REQUEST");
 		console.debug(
 			"ℹ AUTHORIZATION HEADER:",
 			req.headers.authorization,
@@ -29,18 +29,19 @@ class UserInfoEndpoint extends AbstractProtectedResourceEndpoint {
 		const intent = req.body.inputs[0].intent;
 		let payload;
 		try {
-			console.info("ℹ HANDLE INTENT", intent);
-			payload = await intents[intent](req);
+			console.log("ℹ HANDLE INTENT", intent);
+			const intentHandler = intents[intent]
+			payload = await intentHandler(req);
 		} catch (error) {
 			console.error("❌ ERROR", error);
 			throw error;
 		}
-		console.info("ℹ PAYLOAD GENERATED", payload);
+		console.log("ℹ PAYLOAD GENERATED", payload);
 		const response = {
 			requestId: req.body.requestId,
 			payload,
 		};
-		console.info("ℹ RESPONSE", response);
+		console.log("ℹ RESPONSE", response);
 		return response;
 	}
 

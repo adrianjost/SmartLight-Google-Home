@@ -65,18 +65,18 @@ const commandHandler = {
 };
 
 const executeCommand = async (commandObj, userid) => {
-	console.info("ℹ COMMAND OBJECT", commandObj);
+	console.log("ℹ COMMAND OBJECT", commandObj);
 	const devices = commandObj.devices;
 	let out = [];
 	for (let index = 0; index < commandObj.execution.length; index++) {
 		const execution = commandObj.execution[index];
-		console.info("ℹ EXECUTION OBJECT", execution);
+		console.log("ℹ EXECUTION OBJECT", execution);
 		const command = execution.command;
 		const params = execution.params;
-		console.info("ℹ COMMAND PARAMS", command, devices, params);
+		console.log("ℹ COMMAND PARAMS", command, devices, params);
 		// eslint-disable-next-line no-await-in-loop
 		const res = await commandHandler[command](devices, params, userid);
-		console.info("ℹ COMMAND HANDLED", res);
+		console.log("ℹ COMMAND HANDLED", res);
 		if (Array.isArray(res)) {
 			out.push(...res);
 		} else {
@@ -87,9 +87,9 @@ const executeCommand = async (commandObj, userid) => {
 };
 
 const execute = async (req) => {
-	console.info("ℹ EXECUTE EXECUTE", req.body);
+	console.log("ℹ EXECUTE EXECUTE", req.body);
 	const commandRequests = req.body.inputs[0].payload.commands;
-	console.info("ℹ REQUESTED COMMANDS:", commandRequests);
+	console.log("ℹ REQUESTED COMMANDS:", commandRequests);
 	const commands = (
 		await Promise.all(
 			commandRequests.map((command) => executeCommand(command, req.auth.userid))
