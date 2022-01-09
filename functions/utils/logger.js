@@ -1,3 +1,4 @@
+/* eslint-disable no-global-assign */
 const generateNewConsole = (
 	oldConsole,
 	{ logLevel = "log", modifier = (...a) => a }

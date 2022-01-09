@@ -1,4 +1,3 @@
-const { db } = require("../utils/firebase");
 const { disconnectUser } = require("../utils/user");
 
 const disconnect = async (req) => {

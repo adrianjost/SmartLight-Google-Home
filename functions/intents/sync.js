@@ -80,12 +80,12 @@ unit:
 	"hostname": "some-hostname"
 }
 */
-const getGroupInfo = (unit) => {
+const getGroupInfo = (/* unit */) => {
 	return false;
 };
 
 const getLampInfo = (unit) => {
-	const getTraits = (lamptype) => {
+	const getTraits = (/* lamptype */) => {
 		// TODO [#2]: differentiate between RGB and WWCW lamps, currently only RGB is implemented
 		// TODO [#3]: implement more traits https://developers.google.com/assistant/smarthome/traits
 		return [

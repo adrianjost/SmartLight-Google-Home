@@ -1,3 +1,5 @@
+/* global functions */
+
 const { db } = require("./utils/firebase");
 // Script to setup database for Google OAuth
 const seed = async (req, res) => {

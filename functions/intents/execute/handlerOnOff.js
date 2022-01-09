@@ -8,7 +8,7 @@ const handlerOnOff = async (devices, params, userid) => {
 	const shouldBeOn = params.on;
 	const deviceIds = devices.map((d) => d.id);
 	const units = await getUnitsByIds(deviceIds, userid);
-	unitUpdates = units.map(async (unit) => {
+	const unitUpdates = units.map(async (unit) => {
 		try {
 			const isOn = Boolean(
 				unit.state.color !== "#000000" || unit.state.gradient

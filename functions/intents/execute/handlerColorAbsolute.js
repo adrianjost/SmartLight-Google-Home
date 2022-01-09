@@ -9,7 +9,7 @@ const handlerColorAbsolute = async (devices, params, userid) => {
 	const deviceIds = devices.map((d) => d.id);
 	const units = await getUnitsByIds(deviceIds, userid);
 
-	unitUpdates = units.map(async (unit) => {
+	const unitUpdates = units.map(async (unit) => {
 		let newColor;
 		if (params.color.hasOwnProperty("temperature")) {
 			newColor = temperatureToHex(
