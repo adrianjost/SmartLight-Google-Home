@@ -98,7 +98,6 @@ const setUnitState = async (unit, newState) => {
 module.exports = {
 	getUnitsByUserID,
 	getUnitsByIds,
-	getUnitById,
 	getUnitState,
 	setUnitState,
 };
