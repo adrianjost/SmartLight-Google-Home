@@ -87,7 +87,7 @@ async function handleUnitChange(change) {
 exports = module.exports = functions
 	.runWith({
 		timeoutSeconds: 15,
-		memory: "2GB",
+		memory: "4GB",
 	})
 	.firestore.document("units/{unitId}")
 	.onUpdate(handleUnitChange);
