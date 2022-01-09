@@ -22,7 +22,7 @@
 		"deploy:authentication": "firebase deploy --only functions:authentication",
 		"deploy:GoogleHome": "firebase deploy --only functions:GoogleHome",
 		"deploy:ReportStateAndRequestSync": "firebase deploy --only functions:ReportStateAndRequestSync",
-		"deploy": "concurrently \"npm:deploy:*\""
+		"deploy": "run-s deploy:*"
 	},
 	"dependencies": {
 		"@adrianjost/oauth2-firebase": "^0.1.21",
@@ -34,7 +34,6 @@
 		"object.fromentries": "^2.0.5"
 	},
 	"devDependencies": {
-		"concurrently": "^7.0.0",
 		"eslint": "^8.6.0",
 		"eslint-plugin-promise": "^6.0.0",
 		"firebase-tools": "^10.0.1",
