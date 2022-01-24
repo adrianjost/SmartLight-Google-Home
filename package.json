@@ -29,7 +29,7 @@
 		"actions-on-google": "^3.0.0",
 		"array.prototype.flat": "^1.2.5",
 		"color": "^4.2.0",
-		"firebase-admin": "^10.0.1",
+		"firebase-admin": "^10.0.2",
 		"firebase-functions": "^3.16.0",
 		"object.fromentries": "^2.0.5"
 	},
