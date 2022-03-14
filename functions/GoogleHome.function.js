@@ -1,6 +1,4 @@
-const {
-	AbstractProtectedResourceEndpoint,
-} = require("@adrianjost/oauth2-firebase");
+const { AbstractProtectedResourceEndpoint } = require("oauth2-firebase");
 const logger = require("./utils/logger");
 
 // const { getUnitsByUserID } = require("./utils/units");

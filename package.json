@@ -25,12 +25,12 @@
 		"deploy": "run-s deploy:*"
 	},
 	"dependencies": {
-		"@adrianjost/oauth2-firebase": "^0.1.21",
 		"actions-on-google": "^3.0.0",
 		"array.prototype.flat": "^1.2.5",
 		"color": "^4.2.1",
 		"firebase-admin": "^10.0.2",
 		"firebase-functions": "^3.18.1",
+		"oauth2-firebase": "github:adrianjost/oauth2-firebase",
 		"object.fromentries": "^2.0.5"
 	},
 	"devDependencies": {
