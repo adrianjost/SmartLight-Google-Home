@@ -29,7 +29,7 @@
 		"array.prototype.flat": "^1.3.0",
 		"color": "^4.2.3",
 		"firebase-admin": "^10.0.2",
-		"firebase-functions": "^3.18.1",
+		"firebase-functions": "^3.21.1",
 		"oauth2-firebase": "github:adrianjost/oauth2-firebase",
 		"object.fromentries": "^2.0.5"
 	},
