@@ -27,8 +27,6 @@ const requestSync = async (userID) => {
 const reportState = async (userID, unit) => {
 	logger.log("ℹ GENERATE UNIT STATE", unit);
 	const unitState = getUnitState(unit);
-	// convert spectrumRGB name according to https://github.com/actions-on-google/smart-home-nodejs/issues/257#issuecomment-461208257
-	delete unitState["online"];
 	const payload = {
 		devices: {
 			states: {
