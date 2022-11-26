@@ -38,13 +38,13 @@ const mapUnitToState = (unit) => {
 };
 
 const query = async (req) => {
-	logger.log("ℹ EXECUTE QUERY", JSON.stringify(req.body));
+	logger.log("🤖 EXECUTE QUERY", JSON.stringify(req.body));
 	const unitIds = req.body.inputs[0].payload.devices.map((d) => d.id);
-	logger.log("ℹ REQUESTED UNIT_IDs:", JSON.stringify(unitIds));
+	logger.log("🤖 REQUESTED UNIT_IDs:", JSON.stringify(unitIds));
 	const units = await getUnitsByIds(unitIds, req.auth.userID);
-	logger.log("ℹ UNITS:", units);
+	logger.log("🤖 UNITS:", units);
 	const devices = Object.fromEntries(units.map(mapUnitToState));
-	logger.log("ℹ DEVICES", devices);
+	logger.log("🤖 DEVICES", devices);
 	return {
 		agentUserId: req.auth.userID,
 		devices,

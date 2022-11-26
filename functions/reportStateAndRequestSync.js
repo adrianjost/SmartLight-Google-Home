@@ -18,14 +18,14 @@ const requestSync = async (userID) => {
 			}),
 		})
 		.then((resp) => {
-			logger.log("ℹ Requested Sync", userID, resp);
+			logger.log("🤖 Requested Sync", userID, resp);
 			return resp;
 		})
 		.catch(logger.error);
 };
 
 const reportState = async (userID, unit) => {
-	logger.log("ℹ GENERATE UNIT STATE", unit);
+	logger.log("🤖 GENERATE UNIT STATE", unit);
 	const unitState = getUnitState(unit);
 	const payload = {
 		devices: {
@@ -34,7 +34,7 @@ const reportState = async (userID, unit) => {
 			},
 		},
 	};
-	logger.log("ℹ GENERATED PAYLOAD FOR reportState", payload);
+	logger.log("🤖 GENERATED PAYLOAD FOR reportState", payload);
 	return homegraphAPI.devices
 		.reportStateAndNotification({
 			requestBody: {
@@ -46,7 +46,7 @@ const reportState = async (userID, unit) => {
 			}),
 		})
 		.then((resp) => {
-			logger.log("ℹ Reported State", userID, resp);
+			logger.log("🤖 Reported State", userID, resp);
 			return resp;
 		})
 		.catch(logger.error);
@@ -59,7 +59,7 @@ async function handleUnitChange(change) {
 	const handleRequest = await isUserRegistered(unitAfter.created_by);
 	if (!handleRequest) {
 		logger.log(
-			"ℹ user is not connected to API => DO NOT PUSH EVENTS",
+			"🤖 user is not connected to API => DO NOT PUSH EVENTS",
 			unitAfter.created_by
 		);
 		// user has not enabled this API
@@ -68,12 +68,12 @@ async function handleUnitChange(change) {
 
 	if (JSON.stringify(unitBefore.state) !== JSON.stringify(unitAfter.state)) {
 		// Unit State has changed
-		logger.log("ℹ report state...", unitAfter.created_by);
+		logger.log("🤖 report state...", unitAfter.created_by);
 		await reportState(unitAfter.created_by, unitAfter);
 		return;
 	}
 	// Unit Meta Data has changed
-	logger.log("ℹ request sync...", unitAfter.created_by);
+	logger.log("🤖 request sync...", unitAfter.created_by);
 	await requestSync(unitAfter.created_by);
 	return;
 }

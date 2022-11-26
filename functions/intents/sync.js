@@ -146,10 +146,10 @@ const getDeviceInfo = (unit) => {
 };
 
 const sync = async (req) => {
-	logger.log("ℹ EXECUTE SYNC", JSON.stringify(req.body));
+	logger.log("🤖 EXECUTE SYNC", JSON.stringify(req.body));
 	await registerUser(req.auth.userID);
 	const units = await getUnitsByUserID(req.auth.userID);
-	logger.log("ℹ UNITS:", JSON.stringify(units));
+	logger.log("🤖 UNITS:", JSON.stringify(units));
 	return {
 		agentUserId: req.auth.userID,
 		devices: units.map(getDeviceInfo),

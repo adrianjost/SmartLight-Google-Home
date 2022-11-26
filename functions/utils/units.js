@@ -11,18 +11,18 @@ const logger = require("./logger");
  * @returns {[Object]} All unit objects the user has
  */
 const getUnitsByUserID = async (userID) => {
-	logger.log("ℹ FETCH UNITS BY USER-ID", userID);
+	logger.log("🤖 FETCH UNITS BY USER-ID", userID);
 	const unitSnapshots = await db
 		.collection("units")
 		.where("created_by", "==", userID)
 		.where("type", "==", "LAMP") // TODO: remove filter when groups are implemented
 		.get();
-	logger.log("ℹ GOT SNAPSHOTS", unitSnapshots);
+	logger.log("🤖 GOT SNAPSHOTS", unitSnapshots);
 	const units = [];
 	unitSnapshots.forEach((doc) => {
 		units.push(doc.data());
 	});
-	logger.log("ℹ CONVERTED SNAPSHOTS TO DATA", units);
+	logger.log("🤖 CONVERTED SNAPSHOTS TO DATA", units);
 	return units;
 };
 
@@ -62,7 +62,7 @@ const getUnitState = (unit) => {
 	// TODO [#6]: implement query responses for other traits
 	const { state } = unit;
 	const color = String(state.color || "#000000");
-	logger.log(`ℹ getUnitState: ${unit.id} ${state.color} ${color}`);
+	logger.log(`🤖 getUnitState: ${unit.id} ${state.color} ${color}`);
 	const isOn = Boolean(
 		(state.type !== undefined && state.type !== "OFF") ||
 			state.gradient !== undefined ||

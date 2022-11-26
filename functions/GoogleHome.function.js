@@ -12,9 +12,9 @@ const logger = require("./utils/logger");
 
 class UserInfoEndpoint extends AbstractProtectedResourceEndpoint {
 	async handleRequest(req, endpointInfo) {
-		logger.log("ℹ ACCESS GRANTED - HANDLE REQUEST");
+		logger.log("🤖 ACCESS GRANTED - HANDLE REQUEST");
 		logger.log(
-			"ℹ AUTHORIZATION HEADER:",
+			"🤖 AUTHORIZATION HEADER:",
 			req.headers.authorization,
 			endpointInfo.userId
 		);
@@ -28,19 +28,19 @@ class UserInfoEndpoint extends AbstractProtectedResourceEndpoint {
 		const intent = req.body.inputs[0].intent;
 		let payload;
 		try {
-			logger.log("ℹ HANDLE INTENT", intent);
+			logger.log("🤖 HANDLE INTENT", intent);
 			const intentHandler = intents[intent];
 			payload = await intentHandler(req);
 		} catch (error) {
 			logger.error("❌ ERROR", error);
 			throw error;
 		}
-		logger.log("ℹ PAYLOAD GENERATED", payload);
+		logger.log("🤖 PAYLOAD GENERATED", payload);
 		const response = {
 			requestId: req.body.requestId,
 			payload,
 		};
-		logger.log("ℹ RESPONSE", response);
+		logger.log("🤖 RESPONSE", response);
 		return response;
 	}
 
