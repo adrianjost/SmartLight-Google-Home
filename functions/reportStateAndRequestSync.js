@@ -1,25 +1,22 @@
-const { smarthome } = require("actions-on-google");
+// @ts-check
 const functions = require("firebase-functions");
+const { homegraph, auth } = require("@googleapis/homegraph");
 const { getUnitState } = require("./utils/units");
 const { isUserRegistered } = require("./utils/user");
 const logger = require("./utils/logger");
 
-const jwt = JSON.parse(
-	Buffer.from(functions.config().crypto.jwt, "base64").toString("ascii")
-);
-if (!jwt) {
-	logger.warn("Service account key is not found");
-	logger.warn("Report state and Request sync will be unavailable");
-}
-
-const app = smarthome({
-	jwt,
-	debug: true,
-});
+const homegraphAPI = homegraph("v1");
 
 const requestSync = async (userID) => {
-	return app
-		.requestSync(userID)
+	return homegraphAPI.devices
+		.requestSync({
+			requestBody: {
+				agentUserId: userID,
+			},
+			auth: await auth.getClient({
+				scopes: ["https://www.googleapis.com/auth/homegraph"],
+			}),
+		})
 		.then((resp) => {
 			logger.log("ℹ Requested Sync", userID, resp);
 			return resp;
@@ -38,6 +35,12 @@ const reportState = async (userID, unit) => {
 		};
 		delete unitState["spectrumRgb"];
 	}
+	if (unitState.hasOwnProperty("temperatureK")) {
+		unitState.color = {
+			temperature: unitState["temperatureK"],
+		};
+		delete unitState["temperatureK"];
+	}
 	const payload = {
 		devices: {
 			states: {
@@ -45,12 +48,16 @@ const reportState = async (userID, unit) => {
 			},
 		},
 	};
-	logger.log("ℹ GENERATED PAYLOAD", payload);
-	return app
-		.reportState({
-			requestId: Math.random().toString().slice(3),
-			agentUserId: userID,
-			payload,
+	logger.log("ℹ GENERATED PAYLOAD FOR reportState", payload);
+	return homegraphAPI.devices
+		.reportStateAndNotification({
+			requestBody: {
+				agentUserId: userID,
+				payload,
+			},
+			auth: await auth.getClient({
+				scopes: ["https://www.googleapis.com/auth/homegraph"],
+			}),
 		})
 		.then((resp) => {
 			logger.log("ℹ Reported State", userID, resp);
