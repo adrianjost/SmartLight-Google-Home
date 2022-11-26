@@ -68,21 +68,30 @@ const getUnitState = (unit) => {
 			state.gradient !== undefined ||
 			(state.color !== undefined && state.color !== "#000000")
 	);
-	const spectrumRgb = hexToSpectrumRgb(color);
-	const brightness = Math.round(getLuminance(color));
-	const temperatureK = hexToTemperature(
-		color,
-		unit.tempMin || 2700,
-		unit.tempMax || 6000
-	);
 
-	return {
+	const outputState = {
 		on: isOn,
 		online: true,
-		brightness,
-		temperatureK,
-		spectrumRgb,
+		brightness: Math.round(getLuminance(color)),
 	};
+	switch (unit.lamptype) {
+		case "RGB":
+			outputState.color = { spectrumRgb: hexToSpectrumRgb(color) };
+			break;
+		case "WWCW":
+			outputState.color = {
+				temperatureK: hexToTemperature(
+					color,
+					unit.tempMin || 2700,
+					unit.tempMax || 6000
+				),
+			};
+			break;
+		default:
+			throw new Error(`unknown lamptype ${unit.lamptype}`);
+	}
+
+	return outputState;
 };
 
 /**
