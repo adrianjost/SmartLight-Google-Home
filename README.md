@@ -21,6 +21,8 @@
    1. firebase functions:config:set project.api_key=<YOUR_WEB_API_KEY>
 1. create required firestore database entries
 
+More details can be found in the OAuth Library documentation on https://github.com/adrianjost/oauth2-firebase#generate-a-shared-key
+
 **Clients:**
 
 ```js
