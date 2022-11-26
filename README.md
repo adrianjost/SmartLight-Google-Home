@@ -59,3 +59,7 @@ const client = {
 };
 await userRef.set(client, { merge: true });
 ```
+
+# Testing
+
+You can check the current homegraph api status on https://smarthome-test-suite.withgoogle.com/devices
