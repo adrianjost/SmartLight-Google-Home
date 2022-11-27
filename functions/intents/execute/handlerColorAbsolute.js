@@ -11,34 +11,43 @@ const handlerColorAbsolute = async (devices, params, userID) => {
 	const units = await getUnitsByIds(deviceIds, userID);
 
 	const unitUpdates = units.map(async (unit) => {
+		const unitID = unit.id;
+		if (!unit.exists) {
+			return {
+				ids: [unitID],
+				status: "ERROR",
+				errorCode: "deviceNotFound",
+			};
+		}
+		const unitData = unit.data;
 		let newColor;
 		if (params.color.hasOwnProperty("temperature")) {
 			newColor = temperatureToHex(
-				unit.state.color,
+				unitData.state.color,
 				params.color.temperature,
-				unit.tempMin,
-				unit.tempMax
+				unitData.tempMin,
+				unitData.tempMax
 			);
 		} else {
 			newColor = spectrumRgbToHex(params.color.spectrumRGB);
 		}
 		try {
-			if (unit.state.color === newColor) {
-				return unit;
+			if (unitData.state.color === newColor) {
+				return unitData;
 			}
-			await setUnitState(unit, {
+			await setUnitState(unitData, {
 				color: newColor,
 				type: newColor === "#000000" ? "OFF" : "MANUAL",
 			});
 			return {
-				ids: [unit.id],
+				ids: [unitID],
 				status: "SUCCESS",
-				states: getUnitState(unit),
+				states: getUnitState(unitData),
 			};
 		} catch (error) {
 			logger.error(error);
 			return {
-				ids: [unit.id],
+				ids: [unitID],
 				status: "ERROR",
 				errorCode: "hardError",
 			};

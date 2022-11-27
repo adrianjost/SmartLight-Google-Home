@@ -10,14 +10,23 @@ const handlerOnOff = async (devices, params, userID) => {
 	const deviceIds = devices.map((d) => d.id);
 	const units = await getUnitsByIds(deviceIds, userID);
 	const unitUpdates = units.map(async (unit) => {
+		const unitID = unit.id;
+		if (!unit.exists) {
+			return {
+				ids: [unitID],
+				status: "ERROR",
+				errorCode: "deviceNotFound",
+			};
+		}
+		const unitData = unit.data;
 		try {
 			const isOn = Boolean(
-				unit.state.color !== "#000000" || unit.state.gradient
+				unitData.state.color !== "#000000" || unitData.state.gradient
 			);
 			// Do not overwrite units that are already on.
 			if (shouldBeOn === isOn) {
 				return {
-					ids: [unit.id],
+					ids: [unitID],
 					status: "ERROR",
 					errorCode: isOn ? "alreadyOn" : "alreadyOff",
 				};
@@ -31,16 +40,16 @@ const handlerOnOff = async (devices, params, userID) => {
 						color: "#000000",
 						type: "OFF",
 				  };
-			await setUnitState(unit, newState);
+			await setUnitState(unitData, newState);
 			return {
-				ids: [unit.id],
+				ids: [unitID],
 				status: "SUCCESS",
-				states: getUnitState(unit),
+				states: getUnitState(unitData),
 			};
 		} catch (error) {
 			logger.error(error);
 			return {
-				ids: [unit.id],
+				ids: [unitID],
 				status: "ERROR",
 				errorCode: "hardError",
 			};

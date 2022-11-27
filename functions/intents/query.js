@@ -34,7 +34,16 @@ response:
 */
 
 const mapUnitToState = (unit) => {
-	return [unit.id, getUnitState(unit)];
+	if (!unit.exists) {
+		return [
+			unit.id,
+			{
+				status: "ERROR",
+				errorCode: "deviceNotFound",
+			},
+		];
+	}
+	return [unit.id, getUnitState(unit.data)];
 };
 
 const query = async (req) => {
@@ -42,7 +51,6 @@ const query = async (req) => {
 	const unitIds = req.body.inputs[0].payload.devices.map((d) => d.id);
 	logger.log("🤖 REQUESTED UNIT_IDs:", JSON.stringify(unitIds));
 	const units = await getUnitsByIds(unitIds, req.auth.userID);
-	// TODO [#252]: handle units not found - Home API might query devices that got deleted until SYNC has been fully executed
 	logger.log("🤖 UNITS:", units);
 	const devices = Object.fromEntries(units.map(mapUnitToState));
 	logger.log("🤖 DEVICES", devices);

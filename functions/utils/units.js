@@ -27,10 +27,9 @@ const getUnitsByUserID = async (userID) => {
 };
 
 /**
- * Throws an error if one unitID couldn't be fetched
  * @param  {[string]} unitIds ids of the units to fetch
  * @param  {string} userID of requester
- * @returns {[Object]} All unit objects requested
+ * @returns {[{id: string; exists: boolean; data: unknown}]} All unit objects requested
  */
 const getUnitsByIds = async (unitIds, userID) => {
 	return Promise.all(unitIds.map((unitID) => getUnitById(unitID, userID)));
@@ -42,7 +41,7 @@ const getUnitById = async (unitID, userID) => {
 	}
 	const unitSnapshots = await db.collection("units").doc(unitID).get();
 	if (!unitSnapshots.exists) {
-		throw new Error("unit does not exists");
+		return { id: unitID, exists: false };
 	}
 	const unit = unitSnapshots.data();
 	/*
@@ -50,7 +49,7 @@ const getUnitById = async (unitID, userID) => {
 		logger.error("access denied", unit.created_by, userID)
 		throw new Error("access denied");
 	}*/
-	return unit;
+	return { id: unitID, exists: true, data: unit };
 };
 
 /**

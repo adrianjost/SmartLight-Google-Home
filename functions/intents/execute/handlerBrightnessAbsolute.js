@@ -10,23 +10,32 @@ const handlerBrightnessAbsolute = async (devices, params, userID) => {
 	const deviceIds = devices.map((d) => d.id);
 	const units = await getUnitsByIds(deviceIds, userID);
 	const unitUpdates = units.map(async (unit) => {
+		const unitID = unit.id;
+		if (!unit.exists) {
+			return {
+				ids: [unitID],
+				status: "ERROR",
+				errorCode: "deviceNotFound",
+			};
+		}
+		const unitData = unit.data;
 		try {
-			const currentColor = unit.state.color || "#000000";
+			const currentColor = unitData.state.color || "#000000";
 			const newColor = setLuminance(currentColor, params.brightness);
 			const newState = {
 				color: newColor,
 				type: newColor === "#000000" ? "OFF" : "MANUAL",
 			};
-			await setUnitState(unit, newState);
+			await setUnitState(unitData, newState);
 			return {
-				ids: [unit.id],
+				ids: [unitID],
 				status: "SUCCESS",
-				states: getUnitState(unit),
+				states: getUnitState(unitData),
 			};
 		} catch (error) {
 			logger.error(error);
 			return {
-				ids: [unit.id],
+				ids: [unitID],
 				status: "ERROR",
 				errorCode: "hardError",
 			};
