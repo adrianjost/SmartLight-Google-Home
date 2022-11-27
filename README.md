@@ -15,8 +15,6 @@
 
 1. create config `.runtimeconfig.json` with keys `crypto.auth_token_secret_key_32` and `project.api_key`
 1. Set firebase env variables
-   1. firebase functions:config:set crypto.jwt=<GOOGLE_APPLICATION_CREDENTIALS.JSON> (content of file located at GOOGLE_APPLICATION_CREDENTIALS JSON stringified and base64 encoded)
-      - you can use `console.log(Buffer.from(JSON.stringify(<JSON OBJECT>)).toString('base64'));` to create it
    1. firebase functions:config:set crypto.auth_token_secret_key_32=<YOUR_GENERATED_RANDOM_32_CHAR_STRING>
    1. firebase functions:config:set project.api_key=<YOUR_WEB_API_KEY>
 1. create required firestore database entries
