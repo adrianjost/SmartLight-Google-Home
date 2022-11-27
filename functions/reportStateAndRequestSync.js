@@ -56,7 +56,9 @@ async function handleUnitChange(change) {
 	const unitBefore = change.before.data();
 	const unitAfter = change.after.data();
 
-	const handleRequest = await isUserRegistered(unitAfter.created_by);
+	const handleRequest = await isUserRegistered(
+		unitAfter.created_by || unitBefore.created_by
+	);
 	if (!handleRequest) {
 		logger.log(
 			"🤖 user is not connected to API => DO NOT PUSH EVENTS",
@@ -66,8 +68,15 @@ async function handleUnitChange(change) {
 		return;
 	}
 
+	if (!change.after.exists()) {
+		// Unit was deleted
+		logger.log("🤖 request sync...", unitBefore.created_by);
+		await requestSync(unitBefore.created_by);
+		return;
+	}
+
 	if (JSON.stringify(unitBefore.state) !== JSON.stringify(unitAfter.state)) {
-		// Unit State has changed
+		// Unit State has changed or unit was added
 		logger.log("🤖 report state...", unitAfter.created_by);
 		await reportState(unitAfter.created_by, unitAfter);
 		return;
