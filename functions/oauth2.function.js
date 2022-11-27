@@ -1,4 +1,4 @@
-// OAuth Server - https://github.com/yoichiro/oauth2-firebase
+// OAuth Server - https://github.com/adrianjost/oauth2-firebase
 
 // Before Deploy Set:
 // firebase functions:config:set crypto.auth_token_secret_key_32=<YOUR_GENERATED_RANDOM_32_CHAR_STRING>
@@ -12,7 +12,7 @@ const {
 	Configuration,
 	googleAccountAuthentication,
 	token,
-} = require("oauth2-firebase");
+} = require("@adrianjost/oauth2-firebase");
 
 Configuration.init({
 	crypto_auth_token_secret_key_32:
