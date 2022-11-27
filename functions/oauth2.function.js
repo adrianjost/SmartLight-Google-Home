@@ -5,6 +5,8 @@
 // firebase functions:config:set project.api_key=<YOUR_WEB_API_KEY>
 
 const functions = require("firebase-functions");
+const { highResourceFunction } = require("./utils/function");
+
 const {
 	authorize,
 	Configuration,
@@ -19,7 +21,9 @@ Configuration.init({
 });
 
 module.exports = {
-	token: token(),
-	authorize: authorize(),
-	authentication: googleAccountAuthentication(),
+	token: highResourceFunction.https.onRequest(token()),
+	authorize: highResourceFunction.https.onRequest(authorize()),
+	authentication: highResourceFunction.https.onRequest(
+		googleAccountAuthentication()
+	),
 };

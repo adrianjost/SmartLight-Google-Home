@@ -1,4 +1,5 @@
 const { AbstractProtectedResourceEndpoint } = require("oauth2-firebase");
+const { highResourceFunction } = require("./utils/function");
 const logger = require("./utils/logger");
 
 // const { getUnitsByUserID } = require("./utils/units");
@@ -10,7 +11,7 @@ const logger = require("./utils/logger");
 // 		logger.error("ERROR", error);
 // 	});
 
-class UserInfoEndpoint extends AbstractProtectedResourceEndpoint {
+class IntentEndpoint extends AbstractProtectedResourceEndpoint {
 	async handleRequest(req, endpointInfo) {
 		logger.log("🤖 ACCESS GRANTED - HANDLE REQUEST");
 		logger.log(
@@ -49,4 +50,6 @@ class UserInfoEndpoint extends AbstractProtectedResourceEndpoint {
 	}
 }
 
-module.exports = new UserInfoEndpoint().endpoint;
+module.exports = highResourceFunction.https.onRequest(
+	new IntentEndpoint().endpoint
+);

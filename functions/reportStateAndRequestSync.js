@@ -1,9 +1,9 @@
 // @ts-check
-const functions = require("firebase-functions");
 const { homegraph, auth } = require("@googleapis/homegraph");
 const { getUnitState } = require("./utils/units");
 const { isUserRegistered } = require("./utils/user");
 const logger = require("./utils/logger");
+const { highResourceFunction } = require("./utils/function");
 
 const homegraphAPI = homegraph("v1");
 
@@ -87,11 +87,6 @@ async function handleUnitChange(change) {
 	return;
 }
 
-exports = module.exports = functions
-	.region("europe-west1")
-	.runWith({
-		timeoutSeconds: 15,
-		memory: "4GB",
-	})
-	.firestore.document("units/{unitId}")
+exports = module.exports = highResourceFunction.firestore
+	.document("units/{unitId}")
 	.onUpdate(handleUnitChange);
