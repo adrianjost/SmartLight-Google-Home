@@ -42,7 +42,7 @@ const query = async (req) => {
 	const unitIds = req.body.inputs[0].payload.devices.map((d) => d.id);
 	logger.log("🤖 REQUESTED UNIT_IDs:", JSON.stringify(unitIds));
 	const units = await getUnitsByIds(unitIds, req.auth.userID);
-	// TODO: handle units not found - Home API might query devices that got deleted until SYNC has been fully executed
+	// TODO [$638326852f28300008e88b7f]: handle units not found - Home API might query devices that got deleted until SYNC has been fully executed
 	logger.log("🤖 UNITS:", units);
 	const devices = Object.fromEntries(units.map(mapUnitToState));
 	logger.log("🤖 DEVICES", devices);
