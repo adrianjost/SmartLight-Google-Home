@@ -68,7 +68,7 @@ async function handleUnitChange(change) {
 		return;
 	}
 
-	if (!change.after.exists()) {
+	if (!change.after.exists) {
 		// Unit was deleted
 		logger.log("🤖 request sync...", unitBefore.created_by);
 		await requestSync(unitBefore.created_by);
